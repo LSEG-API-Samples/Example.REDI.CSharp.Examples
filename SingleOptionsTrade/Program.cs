@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RediLib;
 using CommandLine;
-namespace OptionsTrade
+namespace REDI.Csharp.Examples.SingleOptionsTrade
 {
     class Program
     {
