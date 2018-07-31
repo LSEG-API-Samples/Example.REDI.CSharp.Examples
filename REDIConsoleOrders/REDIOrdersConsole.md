@@ -3,7 +3,9 @@
 
 ### Introduction
 
-In this tutorial we will discuss how to use Redilink library to monitor REDIPlus orders.  REDIPLus and the tutorial example run on the same machine, side by side.  We will go through the steps of creating a compact console example:
+In this tutorial we will discuss how to use Redilink library to monitor REDIPlus orders.  REDIPLus and the tutorial example run on the same machine, side by side.  
+
+We will go through the steps of creating a compact console example:
 
 * On startup, retrieve the current orders from REDIPlus
 * Consequently, monitor new order additions
@@ -16,17 +18,24 @@ Please note, that this example does not initiate REDIPlus order-related events. 
 * REDIPLus is installed
 * Valid credentials are used to login
 * VisualStudio is installed (we used VS 2017)
-* Interop.RediLib.dll is downloaded an unzipped
 
 ### Implementation
 
-1. Create project:
+1\. Create project:    
 We start by creating a Visual Studio project:
 File->New->Project-> Visual C# -> Console App (.NET Framework)
 and saving it.
 
-2. Add the downloaded library reference
-Browse to and include Interop.RediLib.dll
+2\. Add the Redi 1.0 type library
+
+In Solution Explorer, right-click on **References** and pick **Add Reference**:  
+![](/sites/default/files/inline/images/AddReference.gif)
+
+In Reference Manager, pick **COM** and select **REDILib Type Library** if it is available on COM library list:
+
+![](/sites/default/files/inline/images/PickRediTlb.gif)
+
+Otherwise, if **Redi 1.0 Type Library** is not on the COM library list, click **Browse** andlocate the Redi.tlb file in %LOCALAPPDATA%\REDI Tech\Primar**y** folder.
 
 3. Create Order class that emulates REDI order,
 by including the required fields:
