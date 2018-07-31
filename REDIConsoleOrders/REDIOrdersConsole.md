@@ -23,17 +23,17 @@ Please note, that this example does not initiate REDIPlus order-related events. 
 
 1\. Create project:    
 We start by creating a Visual Studio project:
-File->New->Project-> Visual C# -> Console App (.NET Framework)
+File->New->Project-> Visual C# -> Console App (.NET Framework)PickRediTlb
 and saving it.
 
 2\. Add the Redi 1.0 type library
 
 In Solution Explorer, right-click on **References** and pick **Add Reference**:  
-![](/sites/default/files/inline/images/AddReference.gif)
+![AddReference](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/AddReference.gif)
 
 In Reference Manager, pick **COM** and select **REDILib Type Library** if it is available on COM library list:
 
-![](/sites/default/files/inline/images/PickRediTlb.gif)
+![PickRediTlb](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/PickRediTlb.gif)
 
 Otherwise, if **Redi 1.0 Type Library** is not on the COM library list, click **Browse** andlocate the Redi.tlb file in %LOCALAPPDATA%\REDI Tech\Primar**y** folder.
 
