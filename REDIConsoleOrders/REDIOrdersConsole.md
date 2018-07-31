@@ -29,6 +29,7 @@ and saving it.
 2\. Add the Redi 1.0 type library
 
 In Solution Explorer, right-click on **References** and pick **Add Reference**:  
+
 ![AddReference](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/AddReference.gif)
 
 In Reference Manager, pick **COM** and select **REDILib Type Library** if it is available on COM library list:
@@ -86,11 +87,11 @@ Build and start the application without starting REDIPlus first.
 
 This should result in an exception:
 
-<isREDIRunning>
+[IsREDIRunning](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/IsREDIRunning.gif)
 
 Next we start REDIPlus, login, and open up Message Monitor.
 
-<REDIOpenMessageMonitor>
+[REDIOpenMessageMonitor](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/REDIOpenMessageMonitor.gif)
 
 It will come up empty, as no orders have been placed yet.
 
