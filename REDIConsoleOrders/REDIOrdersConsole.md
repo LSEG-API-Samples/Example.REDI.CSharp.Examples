@@ -87,17 +87,17 @@ Build and start the application without starting REDIPlus first.
 
 This should result in an exception:
 
-[IsREDIRunning](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/IsREDIRunning.gif)
+![IsREDIRunning](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/IsREDIRunning.gif)
 
 Next we start REDIPlus, login, and open up Message Monitor.
 
-[REDIOpenMessageMonitor](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/REDIOpenMessageMonitor.gif)
+![REDIOpenMessageMonitor](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/REDIOpenMessageMonitor.gif)
 
 It will come up empty, as no orders have been placed yet.
 
 Now we create a couple of test orders:
 
-<REDIOrderCreate>
+![REDIOrderCreate](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/REDIOrderCreate.gif)
 
 The new Orders should appear in Message Monitor as they arrive
 As well as on console:
