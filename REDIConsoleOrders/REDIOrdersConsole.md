@@ -38,7 +38,7 @@ In Reference Manager, pick **COM** and select **REDILib Type Library** if it is 
 
 Otherwise, if **Redi 1.0 Type Library** is not on the COM library list, click **Browse** andlocate the Redi.tlb file in %LOCALAPPDATA%\REDI Tech\Primar**y** folder.
 
-3. Create Order class that emulates REDI order,
+3\. Create Order class that emulates REDI order,
 by including the required fields:
 
     ```
@@ -60,7 +60,7 @@ by including the required fields:
             }        
     ```
 
-4.Next, we create the main class, that we have named "RediConsoleOrders" 
+4\. Next, we create the main class, that we have named "RediConsoleOrders" 
 
 The key steps of it are:
 4a. Initialize CacheControl that will contain the state of all orders within REDIPlus
@@ -102,18 +102,18 @@ Now we create a couple of test orders:
 The new Orders should appear in Message Monitor as they arrive
 As well as on console:
 
-<REDIOrdersSnapshot>
+![REDIOrdersSnapshot](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/REDIOrdersSnapshot.gif)
 
 if we click on "Cancel" on Message Monitor the order update is reflected on console:
 
-<REDIOrderCancelOnConsole>
+![REDIOrderCancelOnConsole](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/REDIOrderCancelOnConsole.gif)
 
 At this point, if we restart our Monitor application
 
 The current state of orders is fully synchronized on startup,
 via snapshot:
 
-<REDIOrderSnapshotOnRestart>
+![REDIOrderSnapshotOnRestart](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/REDIOrderSnapshotOnRestart.gif)
 
 This concludes our tutorial designed to help to get started with REDI C# coding
 and serve as a stepping stone toward more advanced REDI learning materials available on this portal
