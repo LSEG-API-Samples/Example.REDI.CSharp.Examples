@@ -1,0 +1,285 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using RediLib;
+
+/**
+ * Example code 
+ * class DisplayRediOrders
+ * For TR -> REDI -> Monitor Orders In C# 
+ * Tutorial
+ * **/
+namespace RediConsoleOrders
+{
+    class DisplayRediOrders
+    {
+        private CacheControl orderCache;
+        object exec_err;
+
+        public enum CacheControlActions
+        {
+            Snapshot = 1,
+            Add = 4,
+            Update = 5,
+            Delete = 8
+        }
+
+        public bool init()
+        {
+            try { 
+                orderCache = new CacheControl();    // create CacheControl 
+                orderCache.CacheEvent += orderCacheHandler;  // register handler
+                orderSubmit();    // this order submit
+                return true;
+            } catch (System.Runtime.InteropServices.COMException come)
+            {
+                Console.WriteLine("\nException <<< IS REDIPlus RUNNING? >>>\n\n" + come);
+                return false;
+            }
+        }
+
+        public void orderSubmit()
+        {
+            // this message initializes interaction with Order cache
+            // that should include the initial snapshot of the orders and conseqcutive deltas  
+            object result = orderCache.Submit("Message", ""/*"(msgtype == 10)"*/, ref exec_err);
+        }
+
+        static void Main(string[] args)
+        {
+
+            Console.WriteLine("Start of RediConsoleOrders");
+            DisplayRediOrders myOrders = new DisplayRediOrders();
+            if (myOrders.init()) {  
+                Console.WriteLine("Init completed");
+ //  
+                while (true)
+                {
+                }
+            }
+        }
+
+        public static object GetCell(CacheControl cc, int row, string columnName, out int errorCode)
+        {
+            object value = null;
+            object errCode = null;
+            try
+            {
+                cc.GetCell(row, columnName, ref value, ref errCode);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message + " " + e.StackTrace);
+            }
+            errorCode = (int)errCode;
+            if (value != null)
+            {
+                return value;
+            }
+            return string.Empty;
+        }
+
+
+        private void orderCacheHandler(int action, int row)
+        // callback for OrderCache interaction
+        {
+            string Time;
+
+            string Account;
+            string Side;
+            string Quantity;
+            string ExecQuantity;
+            string Symbol;
+            string PriceDesc;
+            string ExecPrice;
+            string PctCmp;
+            string Lvs;
+            string Status;
+            string OrderRefKey;
+
+            int errCode;
+
+//            Console.WriteLine("action: " + action.ToString() + "; row: " + row.ToString());
+
+            if (row >= 0)
+            {
+                //Console.WriteLine("action: " + action.ToString());
+                 switch (action)
+                {
+                    case (int)CacheControlActions.Add: // new order is added to cache
+ //                       Console.WriteLine("Add");
+                        try
+                        {
+                            Time = GetCell(orderCache, row, "Time", out errCode).ToString().TrimStart();
+                            Account = GetCell(orderCache, row, "Account", out errCode).ToString().TrimStart();
+                            Side = GetCell(orderCache, row, "Side", out errCode).ToString().TrimStart();
+                            Quantity = GetCell(orderCache, row, "Quantity", out errCode).ToString().TrimStart();
+                            ExecQuantity = GetCell(orderCache, row, "ExecQuantity", out errCode).ToString().TrimStart();
+                            Symbol = GetCell(orderCache, row, "DisplaySymbol", out errCode).ToString().TrimStart();
+                            if ((Symbol.Contains("DEFAULT")) || (Symbol.Equals("")))
+                                break; // do not display orders that resulated in errors on REDIPlus
+                            PriceDesc = GetCell(orderCache, row, "PriceDesc", out errCode).ToString().TrimStart();
+                            ExecPrice = GetCell(orderCache, row, "AvgExecPrice", out errCode).ToString().TrimStart();
+                           if (((null == ExecQuantity) || (null == Quantity)) ||
+                                    ((ExecQuantity.Equals("")) || (Quantity.Equals(""))))
+                                break; // do not display orders with quantities not populated, wait for the valid order
+                            decimal Pct = Convert.ToDecimal(ExecQuantity) / Convert.ToDecimal(Quantity);
+                            if (ExecQuantity.Equals("0"))
+                            {
+                                PctCmp = "0.00%";
+                            }
+                            else
+                            {
+                                PctCmp = Pct.ToString() + " %";
+                            }
+                            Lvs = GetCell(orderCache, row, "Leaves", out errCode).ToString().TrimStart();
+                            Status = GetCell(orderCache, row, "Status", out errCode).ToString().TrimStart();
+                            OrderRefKey = GetCell(orderCache, row, "OrderRefKey", out errCode).ToString().TrimStart();
+
+                            var Ord = new Order();
+                            Time = Time.Remove(0, 9);
+                            Ord.Time = Time;
+
+                            Ord.Account = Account;
+                            Ord.Side = Side;
+                            Ord.Quantity = Quantity;
+                            Ord.ExecQuantity = ExecQuantity;
+                            Ord.Symbol = Symbol;
+                            Ord.PriceDesc = PriceDesc;
+                            Ord.ExecPr = ExecPrice;
+                            Ord.PctCmp = PctCmp;
+                            Ord.Lvs = Lvs;
+                            Ord.Status = Status;
+                            Ord.OrderRefKey = OrderRefKey;
+
+                            Console.WriteLine("Add to Orders: "+ Ord.ToString());
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Exception: " + e.Message + " " + e.StackTrace);
+                        }
+                        break;
+                    case (int)CacheControlActions.Update:  // modification or cancellation
+                        try
+                        {
+ //                           Console.WriteLine("Update");
+
+                            Time = GetCell(orderCache, row, "Time", out errCode).ToString().TrimStart();
+                            Account = GetCell(orderCache, row, "Account", out errCode).ToString().TrimStart();
+                            Side = GetCell(orderCache, row, "Side", out errCode).ToString().TrimStart();
+                            Quantity = GetCell(orderCache, row, "Quantity", out errCode).ToString().TrimStart();
+                            ExecQuantity = GetCell(orderCache, row, "ExecQuantity", out errCode).ToString().TrimStart();
+                            Symbol = GetCell(orderCache, row, "DisplaySymbol", out errCode).ToString().TrimStart();
+                            PriceDesc = GetCell(orderCache, row, "PriceDesc", out errCode).ToString().TrimStart();
+                            ExecPrice = GetCell(orderCache, row, "AvgExecPrice", out errCode).ToString().TrimStart();
+                            //PctCmp = GetCell(orderCache, row, "ProgressValue", out errCode).ToString().TrimStart();
+                            if (((null == ExecQuantity) || (null == Quantity)) ||
+                                    ((ExecQuantity.Equals("")) || (Quantity.Equals(""))))
+                                break; //do not display orders with quantities not populated, wait for the valid order
+                            decimal Pct = Convert.ToDecimal(ExecQuantity) / Convert.ToDecimal(Quantity);
+                            if (ExecQuantity.Equals("0"))
+                            {
+                                PctCmp = "0.00%";
+                            }
+                            else
+                            {
+                                PctCmp = Pct.ToString() + " %";
+                            }
+                            Lvs = GetCell(orderCache, row, "Leaves", out errCode).ToString().TrimStart();
+                            Status = GetCell(orderCache, row, "Status", out errCode).ToString().TrimStart();
+                            OrderRefKey = GetCell(orderCache, row, "OrderRefKey", out errCode).ToString().TrimStart();
+
+                            var Ord = new Order();
+
+                            Time = Time.Remove(0, 9);
+
+                            //                       var order = Ord;
+                            Ord.Time = Time;
+                            Ord.Account = Account;
+                            Ord.Side = Side;
+                            Ord.Quantity = Quantity;
+                            Ord.ExecQuantity = ExecQuantity;
+                            Ord.Symbol = Symbol;
+                            Ord.PriceDesc = PriceDesc;
+                            Ord.ExecPr = ExecPrice;
+                            Ord.PctCmp = PctCmp;
+                            Ord.Lvs = Lvs;
+                            Ord.Status = Status;
+                            Ord.OrderRefKey = OrderRefKey;                                                                
+ //                                                       } 
+                            Console.WriteLine("Update to Order: " + Ord);
+                        }
+                        catch
+                        {
+
+                        }
+                        break;
+
+                    case (int)CacheControlActions.Snapshot:
+                        // Snapshot of what happened throughout this day 
+                        // expect this first
+                        try
+                        {
+                            Console.WriteLine("Snapshot of orders:");
+                            for (int i = 0; i < row; i++)
+                            {
+                                Time = GetCell(orderCache, i, "Time", out errCode).ToString().TrimStart();
+                                Account = GetCell(orderCache, i, "Account", out errCode).ToString().TrimStart();
+                                Side = GetCell(orderCache, i, "Side", out errCode).ToString().TrimStart();
+                                Quantity = GetCell(orderCache, i, "Quantity", out errCode).ToString().TrimStart();
+                                ExecQuantity = GetCell(orderCache, i, "ExecQuantity", out errCode).ToString().TrimStart();
+                                Symbol = GetCell(orderCache, i, "DisplaySymbol", out errCode).ToString().TrimStart();
+                                PriceDesc = GetCell(orderCache, i, "PriceDesc", out errCode).ToString().TrimStart();
+                                ExecPrice = GetCell(orderCache, i, "AvgExecPrice", out errCode).ToString().TrimStart();
+                                if (((null == ExecQuantity) || (null == Quantity)) ||
+                                   ((ExecQuantity.Equals("")) || (Quantity.Equals(""))))
+                                    continue; //do not display orders with quantities not populated, wait for the valid order
+                                decimal Pct = 100 * Convert.ToDecimal(ExecQuantity) / Convert.ToDecimal(Quantity);
+                                if (ExecQuantity.Equals("0"))
+                                {
+                                    PctCmp = "0.00%";
+                                }
+                                else
+                                {
+                                    PctCmp = Pct.ToString() + " %";
+                                }
+                                Lvs = GetCell(orderCache, i, "Leaves", out errCode).ToString().TrimStart();
+                                Status = GetCell(orderCache, i, "Status", out errCode).ToString().TrimStart();
+                                OrderRefKey = GetCell(orderCache, i, "OrderRefKey", out errCode).ToString().TrimStart();
+
+  //                              Console.WriteLine("1 - Time = " + Time + /*";BrSeq = " + BrSeq +*/ ";row = " + i);
+                                var Ord = new Order();
+
+                                Time = Time.Remove(0, 9);
+                                Ord.Time = Time;
+
+                                Ord.Account = Account;
+                                Ord.Side = Side;
+                                Ord.Quantity = Quantity;
+                                Ord.ExecQuantity = ExecQuantity;
+                                Ord.Symbol = Symbol;
+                                Ord.PriceDesc = PriceDesc;
+                                Ord.ExecPr = ExecPrice;
+                                Ord.PctCmp = PctCmp;
+                                Ord.Lvs = Lvs;
+                                Ord.Status = Status;
+                                Ord.OrderRefKey = OrderRefKey;
+
+                               Console.WriteLine("<Orders row=" + i + "|time="+Time+">\n" + Ord.ToString());
+                            }
+                            Console.WriteLine("End of orders");
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine("Exception: " + e);
+                        }
+                        break;
+
+                }
+            }
+        }
+    }
+}
