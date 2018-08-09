@@ -39,29 +39,30 @@ Otherwise, if **Redi 1.0 Type Library** is not on the COM library list, click **
 
 3\. Next we create a very simple class CachedPosition that will encapsulate a position in cache:
 
-    namespace RediConsolePositions
-{
-    class CachedPosition
+     
+     namespace RediConsolePositions
     {
-        private string _account;
-        public string Account
+        class CachedPosition
         {
-            get { return _account; }
-            set {_account = value; }
-        }
-        private string _displaysymbol;
-        public string DisplaySymbol
-        {
-            get { return _displaysymbol; }
-            set { _displaysymbol = value; }
-        }
+            private string _account;
+            public string Account
+            {
+                get { return _account; }
+                set {_account = value; }
+            }
+            private string _displaysymbol;
+            public string DisplaySymbol
+            {
+                get { return _displaysymbol; }
+                set { _displaysymbol = value; }
+            }
 
-        private int _position;
-        public int Position
-        {
-            get { return _position; }
-            set { _position = value; }
-        }...
+            private int _position;
+            public int Position
+            {
+                get { return _position; }
+                set { _position = value; }
+            }...
 
 4\. Next, we create the main class, that we have named "RediConsolePositions"
 
