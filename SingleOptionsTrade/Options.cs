@@ -14,9 +14,9 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
 
         [Option('q', "quantity",Default = 1, HelpText = "Options contract size")]
         public int Quantity { get; set; }
-        [Option('p', "price", HelpText = "Limit Price of an order")]
+        [Option('l', "limitprice", HelpText = "Limit Price of an order (Required by \"Limit\", \"Stop Limit\", \"Limit Close\")")]
         public decimal Price { get; set; }
-        [Option('t', "stopprice", HelpText = "Stop Price of an order")]
+        [Option('t', "stopprice", HelpText = "Stop Price of an order (Required by \"Stop\", \"Stop Limit\")")]
         public decimal StopPrice { get; set; }
 
         [Option('y', "type", Default = "Call", HelpText = "Options Type (Call or Put)")]
@@ -39,7 +39,7 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
         [Option('f', "tif", Default = "Day", HelpText = "Time In Force for an order")]
         public string TIF { get; set; }
 
-        [Option('r', "pricetype", Default = "Limit", HelpText = "Order type of an order (Limit, Stop, Stop Limit, Market Close, Market, or Limit Close)")]
+        [Option('p', "pricetype", Default = "Limit", HelpText = "Order type of an order (Limit, Stop, Stop Limit, Market Close, Market, or Limit Close)")]
         public string PriceType { get; set; }
 
         [Option('a', "account", HelpText = "The account used for this order")]
