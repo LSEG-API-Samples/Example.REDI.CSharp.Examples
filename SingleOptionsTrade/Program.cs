@@ -33,22 +33,22 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
             if (!typeList.Contains(options.Type))
             {
                 ret = false;
-                Console.WriteLine("Invalid Value ({0}): -t, --type         (Default: Call) Options Type (Call or Put)", options.Type);
+                Console.WriteLine("Invalid Value ({0}):\n\t -t, --type         (Default: Call) Options Type (Call or Put)", options.Type);
             }
             if (!postionList.Contains(options.Position))
             {
                 ret = false;
-                Console.WriteLine("Invalid Value ({0}): -o, --position     (Default: Open) Options order position (Open or Close)", options.Position);
+                Console.WriteLine("Invalid Value ({0}):\n\t -o, --position     (Default: Open) Options order position (Open or Close)", options.Position);
             }
             if (!sideList.Contains(options.Side))
             {
                 ret = false;
-                Console.WriteLine("Invalid Value ({0}): -d, --side         (Default: Buy) Side of an order (Buy or Sell)", options.Side);
+                Console.WriteLine("Invalid Value ({0}):\n\t -d, --side         (Default: Buy) Side of an order (Buy or Sell)", options.Side);
             }
             if (!priceTypeList.Contains(options.PriceType))
             {
                 ret = false;
-                Console.WriteLine("Invalid Value {0}: -r, --pricetype    (Default: Limit) Order type of an order (Limit, Stop, Stop Limit, Market Close, Market, Limit Close)", options.PriceType);
+                Console.WriteLine("Invalid Value {0}:\n\t -r, --pricetype    (Default: Limit) Order type of an order (Limit, Stop, Stop Limit, Market Close, Market, Limit Close)", options.PriceType);
             }
             switch (options.PriceType)
             {
@@ -57,22 +57,49 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
                     if(options.Price == 0)
                     {
                         ret = false;
-                        Console.WriteLine("Price is required {0}: -p, --price        Limit Price of an order", options.Price);
+                        Console.WriteLine("Limit price ({0}) is required:\n\t -l, --limitprice    Limit Price of an order (Required by \"Limit\", \"Stop Limit\", \"Limit Close\")", options.Price);
+                    }
+                    if(options.StopPrice != 0)
+                    {
+                        Console.WriteLine("Stop price ({0}) will be ignored.", options.StopPrice);
                     }
                     break;
                 case "Stop":
                     if (options.StopPrice == 0)
                     {
                         ret = false;
-                        Console.WriteLine("Stop price is required {0}: -t, --stop         Stop Price of an order", options.StopPrice);
+                        Console.WriteLine("Stop price ({0}) is required:\n\t -t, --stop         Stop Price of an order (Required by \"Stop\", \"Stop Limit\")", options.StopPrice);
+                    }
+                    if (options.Price != 0)
+                    {
+                        Console.WriteLine("Limit price ({0}) will be ignored.", options.Price);
                     }
                     break;
                 case "Stop Limit":
-                    if (options.StopPrice == 0 || options.Price == 0)
+                    if (options.Price == 0)
                     {
                         ret = false;
-                        Console.WriteLine("Price is required {0}: -p, --price        Limit Price of an order", options.Price);
-                        Console.WriteLine("Stop price is required {0}: -t, --stop         Stop Price of an order", options.StopPrice);
+                        Console.WriteLine("Limit price ({0}) is required:\n\t -l, --limitprice    Limit Price of an order (Required by \"Limit\", \"Stop Limit\", \"Limit Close\")", options.Price);
+
+                    }
+                    if (options.StopPrice == 0)
+                    {
+                        ret = false;
+                        Console.WriteLine("Stop price ({0}) is required:\n\t -t, --stop         Stop Price of an order (Required by \"Stop\", \"Stop Limit\")", options.StopPrice);
+                    }
+                  
+                    break;
+                case "Market":
+                case "Market Close":
+                    if (options.Price != 0)
+                    {
+                        Console.WriteLine("Limit price ({0}) will be ignored", options.Price);
+                    }
+                    if (options.StopPrice != 0)
+                    {
+                        //ret = false;
+                        Console.WriteLine("Stop price ({0}) will be ignored", 
+                            options.StopPrice);                        
                     }
                     break;
 
@@ -174,17 +201,30 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
 
         private void PrintOrder()
         {
-            Console.WriteLine("Send an order with the following options:");
+            Console.WriteLine("\nSend an order with the following options:");
             Console.WriteLine("Symbol: {0}", options.Symbol);
-            Console.WriteLine("Quantity: {0}", options.Quantity.ToString());
-            Console.WriteLine("Price: {0}", options.Price.ToString());
-            Console.WriteLine("Stop Price:{0}", options.StopPrice.ToString());
+            Console.WriteLine("PriceType: {0}", options.PriceType);
+            switch (options.PriceType)
+            {
+                case "Limit":
+                case "Limit Close":
+                    Console.WriteLine("Limit Price: {0}", options.Price.ToString());
+                    break;
+                case "Stop":
+                    Console.WriteLine("Stop Price:{0}", options.StopPrice.ToString());
+                    break;
+                case "Stop Limit":
+                    Console.WriteLine("Limit Price: {0}", options.Price.ToString());
+                    Console.WriteLine("Stop Price:{0}", options.StopPrice.ToString());
+                    break;              
+
+            }
+            Console.WriteLine("Quantity: {0}", options.Quantity.ToString());            
             Console.WriteLine("Type: {0}", options.Type);
             Console.WriteLine("Date: {0}", options.Date);
             Console.WriteLine("Strike: {0}", options.Strike);
             Console.WriteLine("Position: {0}", options.Position);
-            Console.WriteLine("Exchange: {0}", options.Exchange);
-            Console.WriteLine("PriceType: {0}", options.PriceType);
+            Console.WriteLine("Exchange: {0}", options.Exchange);            
             Console.WriteLine("TIF: {0}", options.TIF);
             Console.WriteLine("Account: {0}", options.Account);
             Console.WriteLine("Ticket: {0}", options.Ticket);
@@ -197,16 +237,29 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
             PrintOrder();
 
             objOrder.Symbol = options.Symbol;
+            objOrder.PriceType = options.PriceType;
             objOrder.Quantity = options.Quantity.ToString();
-            objOrder.Price = options.Price.ToString();
-            objOrder.StopPrice = options.StopPrice.ToString();           
+            switch (options.PriceType)
+            {
+                case "Limit":
+                case "Limit Close":
+                    objOrder.Price = options.Price.ToString();
+                    break;
+                case "Stop":
+                    objOrder.StopPrice = options.StopPrice.ToString();
+                    break;
+                case "Stop Limit":
+                    objOrder.Price = options.Price.ToString();
+                    objOrder.StopPrice = options.StopPrice.ToString();
+                    break;
+
+            }         
             objOrder.type = options.Type;
             objOrder.Date = options.Date;          
             objOrder.Strike = options.Strike;           
             objOrder.Position = options.Position;         
             objOrder.Side = options.Side;            
-            objOrder.Exchange = options.Exchange;
-            objOrder.PriceType = options.PriceType;            
+            objOrder.Exchange = options.Exchange;            
             objOrder.TIF = options.TIF;
             objOrder.Account = options.Account;
             objOrder.Ticket = options.Ticket;
@@ -216,13 +269,12 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
             status = objOrder.Submit(ref ord_err);
             if (!status)
             {
-                Console.WriteLine($"Error: {(string)ord_err}");
+                Console.WriteLine("Error: {0}", (string)ord_err);
             }
             else
             {
                 Console.WriteLine("Order has been submitted properly");
             }
-
         }
         static void Main(string[] args)
         {
