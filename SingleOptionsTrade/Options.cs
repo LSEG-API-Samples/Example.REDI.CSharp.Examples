@@ -46,7 +46,7 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
         public string Account { get; set; }
 
 
-        [Option('c', "ticket", Default ="Bypass", HelpText = "The ticket associated in this order")]
+        [Option('c', "ticket", Default ="Bypass", HelpText = "The ticket associated in this order (Bypass, Direct, Autoticket, Autocreate")]
         public string Ticket { get; set; }
 
       
