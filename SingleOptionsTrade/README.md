@@ -43,9 +43,10 @@ Then, add the **using** directive to the code to allow the use of types in the R
 ```csharp
 using RediLib;
 ```
+
 **3. Get expiration dates**
 
-The expiration date is a required field for trade options. **RediLib.OPTIONORDER** can be used to get the list of expiration dates for an option.
+The expiration date is a required field for trade options. **RediLib.OPTIONORDER** can also be used to get the list of expiration dates for an option.
 
 First, the application creates a new instance of **RediLib.OPTIONORDER** and set an option in its **Symbol** property.
 
@@ -117,7 +118,7 @@ An instance of **OPTIONORDER** can be used to submit an order. First, the applic
 |PriceType|Order type of an order (Limit, Stop, Stop Limit, Market Close, Market, or Limit Close). **OPTIONORDER.GetPriceTypeAt** can be used to retrieve the options price type name from the price type list |Limit|
 |TIF|Time In Force for an order (Day). **OPTIONORDER.GetTIFAt** can be used to retrieve the TIF (time in force) from the TIF list |Day|
 |Account|The account used for this order. **OPTIONORDER.GetAccountAt** can be used to the account name from the account list|EQUITY-TR|
-|Ticket|The ticket associated in this order. Bypass can be use to avoid the ticket|Bypass|
+|Ticket|The ticket associated in this order. The possible values are **Bypass**, **Direct**, **Autoticket**, and **Autocreate**. Bypass lets users trade without using a ticket|Bypass|
 
 For example, the below code is **Buy to Open** a contract for IBM Jul 27 '18 $185.00 Call at 10.50. Time in force is Day and the order type is Limit. The order will be sent to a demo server with bypass ticket.
 
@@ -188,9 +189,9 @@ The application depends on the **CommandLineParser** package to manipulate comma
 
   -c, --ticket        (Default: Bypass) The ticket associated in this order
 
-  --help              Display this help screen.
+  --help              Display this help screen
 
-  --version           Display version information.
+  --version           Display version information
 ```
 
 The symbol (-s, --symbol) is a required argument. However, price (-p, --price) or stop price (-t, --stopprice) can be required depending on the value of price type (-r, --pricetype). For example, if the price type is Limit, the price (-p, --price) is required. 
@@ -325,12 +326,12 @@ private void SendOrder()
 }
 
 ```
-It creates a new instance of OPTIONORDER and populates its value. The assignment of **Price** and **StopPrice** fields depends on the value of **PriceType** (Order Type). 
+It creates a new instance of **OPTIONORDER** and populates its value. The usage of **Price** and **StopPrice** fields depends on the value of **PriceType** (Order Type). 
 
-* If the order type is "**Limit**" or "**Limit Close**", only the limit price (**Price**) must be assigned
-* If the order type is "**Stop Limit**", both the limit price (**Price**) and stop price (**StopPrice**) must be assigned
-* If the order type is "**Stop**", only the stop price (**StopPrice**) must be assigned
-* If the order type is "**Market**" or "**Market Close**", the limit price (**Price**) and stop price (**StopPrice**) aren't assigned
+* If the order type is "**Limit**" or "**Limit Close**", only the limit price (**Price**) must be used
+* If the order type is "**Stop Limit**", both the limit price (**Price**) and stop price (**StopPrice**) must be used
+* If the order type is "**Stop**", only the stop price (**StopPrice**) must be used
+* If the order type is "**Market**" or "**Market Close**", the limit price (**Price**) and stop price (**StopPrice**) aren't used
 
 Then, it calls **OPTIONORDER.Submit** to submit the order. If the submit returns false which indicates failure, the error will be printed to the console.  
 
@@ -338,7 +339,7 @@ Then, it calls **OPTIONORDER.Submit** to submit the order. If the submit returns
 
 **1. Buy to Open a call contract for IBM at 15.20**
 ```
-OptionTrade.exe -s IBM -l 15.20
+OptionsTrade.exe -s IBM -l 15.20
 ```
 The command runs with symbol (-s) and limit price (-l) options. Therefore, it uses the first expiration date, strike price, and account retrieved from the REDIPlus API. For other options, the default values are used.
 
@@ -366,7 +367,7 @@ The order can be verified from the Message Monitor.
 
 **2. Buy to Open a put contract for IBM at the best available current price**
 ```
-OptionTrade.exe -s IBM -y Put -p Market
+OptionsTrade.exe -s IBM -y Put -p Market
 ```
 The command runs with symbol (-s), type (-y), and price type (-p) options. Therefore, it uses the first expiration date, strike price, and account retrieved from the REDIPlus API. For other options, the default values are used.
 
@@ -392,7 +393,7 @@ The order can be verified from the Message Monitor.
 
 **3. Buy to Open two call contracts for IBM Aug 03 '18 at 15.20**
 ```
-OptionTrade.exe -s IBM -p 15.20 -q 2 -x "Aug 03 '18"
+OptionsTrade.exe -s IBM -l 15.20 -q 2 -x "Aug 03 '18"
 ```
 The command runs with symbol (-s), limit price (-l), quantity (-q), and expiration date (-x) options. Therefore, it uses the first strike price, and account retrieved from the REDIPlus API. For other options, the default values are used.
 
