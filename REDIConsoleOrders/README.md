@@ -95,9 +95,16 @@ Next we start REDIPlus, login, and open up Message Monitor.
 
 It will come up empty, as no orders have been placed yet.
 
-Now we create a couple of test orders:
+Now we create a couple of test orders.
+We can run Trading -> Montage II
+
+![REDIMontage2](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/REDIMontage2.gif)
+
+In the newly opened Montage II window we create a test order or more:
 
 ![REDIOrderCreate](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/blob/master/REDIConsoleOrders/REDIOrderCreate.gif)
+
+For instance, we buy 100 shares of IBM.
 
 The new Orders should appear in Message Monitor as they arrive
 As well as on console:
