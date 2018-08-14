@@ -339,7 +339,7 @@ Then, it calls **OPTIONORDER.Submit** to submit the order. If the submit returns
 
 **1. Buy to Open a call contract for IBM at 15.20**
 ```
-OptionTrade.exe -s IBM -l 15.20
+OptionsTrade.exe -s IBM -l 15.20
 ```
 The command runs with symbol (-s) and limit price (-l) options. Therefore, it uses the first expiration date, strike price, and account retrieved from the REDIPlus API. For other options, the default values are used.
 
@@ -367,7 +367,7 @@ The order can be verified from the Message Monitor.
 
 **2. Buy to Open a put contract for IBM at the best available current price**
 ```
-OptionTrade.exe -s IBM -y Put -p Market
+OptionsTrade.exe -s IBM -y Put -p Market
 ```
 The command runs with symbol (-s), type (-y), and price type (-p) options. Therefore, it uses the first expiration date, strike price, and account retrieved from the REDIPlus API. For other options, the default values are used.
 
@@ -393,7 +393,7 @@ The order can be verified from the Message Monitor.
 
 **3. Buy to Open two call contracts for IBM Aug 03 '18 at 15.20**
 ```
-OptionTrade.exe -s IBM -l 15.20 -q 2 -x "Aug 03 '18"
+OptionsTrade.exe -s IBM -l 15.20 -q 2 -x "Aug 03 '18"
 ```
 The command runs with symbol (-s), limit price (-l), quantity (-q), and expiration date (-x) options. Therefore, it uses the first strike price, and account retrieved from the REDIPlus API. For other options, the default values are used.
 
