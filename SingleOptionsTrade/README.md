@@ -194,7 +194,7 @@ The application depends on the **CommandLineParser** package to manipulate comma
   --version           Display version information
 ```
 
-The symbol (-s, --symbol) is a required argument. However, price (-p, --price) or stop price (-t, --stopprice) can be required depending on the value of price type (-r, --pricetype). For example, if the price type is Limit, the price (-p, --price) is required. 
+The symbol (-s, --symbol) is a required argument. However, price (-l, --limitprice) or stop price (-t, --stopprice) can be required depending on the value of price type (-r, --pricetype). For example, if the price type is Limit, the price (-l, --limitprice) is required. 
 
 **2. Get the Expiration Date**
 
