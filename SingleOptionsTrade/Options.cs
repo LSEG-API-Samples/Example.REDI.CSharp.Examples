@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 using CommandLine;
 namespace REDI.Csharp.Examples.SingleOptionsTrade
 {
+    //Define all available options for the application
+    //The first parameter for the Option attribute is a short name, such as -s, -q
+    //The second parameter for the Option attrubute is a long name, such as --symbol, --quantity
+    //The symbol (-s, --symbol) is a required argument. 
+    //However, price (-p, --price) or stop price (-t, --stopprice) can be required depending on the value of price type (-r, --pricetype). 
+
     public class Options
     {
         [Option('s',"symbol", Required =true,HelpText = "The symbol of an option") ]
