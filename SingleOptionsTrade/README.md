@@ -417,6 +417,9 @@ Order has been submitted properly
 The order can be verified from the Message Monitor.
 
 ![](Order3.png)
+
+If it returns an **Invalid Date** error, the format of expiration date may be incorrect or the expiration date is invalid. To retrieve all valid expiration dates, the application can call the **GetExpirationDatesCount** and **GetExpirationDateAt** functions.
+
 ## Summary
 
 The options trade can be sent via REDIPlus UI or REDIPlus API. With REDIPlus API, **RediLib.OPTIONORDER** class is used to populate and submit an order. This class can also be used to get the list of accounts, exchanges, expiration dates, strike prices, price types, and time in force.
