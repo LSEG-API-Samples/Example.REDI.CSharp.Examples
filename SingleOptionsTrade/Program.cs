@@ -270,6 +270,11 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
             if (!status)
             {
                 Console.WriteLine("Error: {0}", (string)ord_err);
+                string error = (string)ord_err;
+                if(error == "Invalid Date.")
+                {
+                    Console.WriteLine("The first valid expiration date is: \"{0}\". Please try with this expiration date.", GetExpirationDate(options.Symbol));                   
+                }
             }
             else
             {
