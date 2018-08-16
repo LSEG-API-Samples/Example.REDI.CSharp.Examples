@@ -333,8 +333,14 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
      .WithParsed<Options>(opts => { options = opts; });
            
             if (options == null) return;
-            Program prog = new Program(options);
-            prog.Run();
+            try
+            {
+                Program prog = new Program(options);
+                prog.Run();
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
     }
 }
