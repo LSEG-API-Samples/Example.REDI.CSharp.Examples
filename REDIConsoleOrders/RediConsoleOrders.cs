@@ -37,6 +37,8 @@ namespace RediConsoleOrders
             } catch (System.Runtime.InteropServices.COMException come)
             {
                 Console.WriteLine("\nException <<< IS REDIPlus RUNNING? >>>\n\n" + come);
+                Console.WriteLine("Press any key to continue . . .");
+                Console.ReadLine();
                 return false;
             }
         }
