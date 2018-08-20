@@ -52,7 +52,7 @@ Click on **OK** to add the REDIPlus API to the project.
 
 If the **Redi 1.0 Type Library** does not appear in the list, click on **Browse** to locate the _Redi.tlb_ file. Typically, this file should be found in the _%LOCALAPPDATA%\REDI Tech\Primary_ folder.
 
-After adding the Redi 1.0 Type Library, expand the References in the solution explorer. The RediLib should appear in the list:
+After adding the **Redi 1.0 Type Library**, expand the **References** in the solution explorer. The **RediLib** should appear in the list:
 
 ![](References.png)
 
@@ -147,7 +147,7 @@ This is the essential part of this tutorial.
 
 To submit a ticket, we define an order with the following parameters: symbol, side, quantity, exchange, and account. We also set the user and list name.
 
-We set the exchange to value “*ticket”, because we are creating a ticket, i.e. a parent order in REDI.
+We set the exchange to value “***ticket**”, because we are creating a ticket, i.e. a parent order in REDI.
 
 Here is some very basic code to submit a ticket, using hard coded values:
 
