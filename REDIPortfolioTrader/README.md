@@ -1,4 +1,4 @@
-Ôªø# REDIPlus Portfolio Trader List Load in C#
+# REDIPlus Portfolio Trader List Load in C#
 
 ## Introduction
 In this tutorial we demonstrate how to use the REDIPlus API (i.e. the Redilink library) to load a list of tickets into Portfolio Trader, using C# .Net code.
@@ -29,9 +29,9 @@ A ticket is not an order, it is a trading intention. The REDI user (the trader) 
 ## Prerequisites
 An installed copy of **Microsoft Visual Studio** is required to experiment with the code. We used VS 2013.
 
-REDIPLus and the REDIPlus API must be installed. For installation instructions, please refer to the [REDIPlus & API Installation Guide](https://developers.thomsonreuters.com/transactions/redi-api/quick-start).
+REDIPlus and the REDIPlus API must be installed. For installation instructions, please refer to the [REDIPlus & API Installation Guide](https://developers.thomsonreuters.com/transactions/redi-api/quick-start).
 
-Valid REDI credentials are required to log into REDIPlus, this is done via the GUI.
+Valid REDI credentials and entitlements are required to log into REDIPlus, this is done via the GUI.
 
 ## Implementation
 You can create the project manually, but note that the complete project code is also available for download.
@@ -39,7 +39,7 @@ You can create the project manually, but note that the complete project code is 
 ### Create a project
 We start by creating a new Visual Studio project:
 
-File ‚Üí New ‚Üí Project ‚Üí Visual C# ‚Üí Console App (.NET Framework)
+File ? New ? Project ? Visual C# ? Console App (.NET Framework)
 
 ### Reference the Redi 1.0 Type Library
 The REDIPlus API is a COM library. To use it, we need to create a reference to this library. In the solution explorer, right click on **References** and select **Add Reference...** .
@@ -75,9 +75,9 @@ Feedback on most actions is delivered to the console, and to an output file.
 
 #### Member declarations
 You need to set valid values in all the variables before attempting to run the program. You require:
-- A valid REDI user name ‚Äì to which the tickets will be assigned
+- A valid REDI user name ñ to which the tickets will be assigned
 - A valid REDI account
-- A list name ‚Äì you can set anything you like; all the tickets will appear under that name inside the Portfolio Trader window
+- A list name ñ you can set anything you like; all the tickets will appear under that name inside the Portfolio Trader window
 - A path and file name for the input CSV (a sample CSV is delivered with the code)
 - A path and file name for the output log file
 
@@ -104,14 +104,14 @@ catch (System.Runtime.InteropServices.COMException comErr)
 ```
 
 #### Read the input CSV file
-The format of the CSV was arbitrarily defined as 1 ticket per line, each line containing the symbol, side and quantity. Empty lines and lines starting with a ‚Äú#‚Äù (comment lines) are ignored. This is just a simple example; feel free to define a format that fits your use case.
+The format of the CSV was arbitrarily defined as 1 ticket per line, each line containing the symbol, side and quantity. Empty lines and lines starting with a ì#î (comment lines) are ignored. This is just a simple example; feel free to define a format that fits your use case.
 
 Reading the file is standard C# coding, there is no need to describe that here.
 
 We implemented some basic validation rules, applied to each line:
 - Ignore empty lines and comment lines (those starting with a #)
 - Check if the first item (the Symbol) exists
-- Check if the second item (the Side) is ‚ÄúBuy‚Äù or ‚ÄúSell‚Äù
+- Check if the second item (the Side) is ìBuyî or ìSellî
 - Check that the third item (the Quantity) is a valid number (integer, greater than 0)
 
 Here is the validation code:
@@ -147,7 +147,7 @@ This is the essential part of this tutorial.
 
 To submit a ticket, we define an order with the following parameters: symbol, side, quantity, exchange, and account. We also set the user and list name.
 
-We set the exchange to value ‚Äú***ticket**‚Äù, because we are creating a ticket, i.e. a parent order in REDI.
+We set the exchange to value ì***ticket**î, because we are creating a ticket, i.e. a parent order in REDI.
 
 Here is some very basic code to submit a ticket, using hard coded values:
 
@@ -169,7 +169,7 @@ success = ptOrder.Submit(ref err);
 
 The code returns a boolean to indicate submission success or failure, and in some cases an error message.
 
-In the GUI, we open **Trading** ‚Üí **Portfolio Trader**, we find the list and ticket inside the Portfolio Trader window:
+In the GUI, we open **Trading** ? **Portfolio Trader**, we find the list and ticket inside the Portfolio Trader window:
 
 ![](BasicTicketInPT.png)
 
@@ -212,7 +212,7 @@ The code displays information, warning and error messages, and logs them to a fi
 - The CSV file erroneous lines generated errors (which we expected)
 - The unknown instrument generated an error. Note that the API call did not generate an error message, it just returned value false, indicating that the submission was not successful. But a pop-up appeared on screen, and the program waited. Only after the popup was manually acknowledged did the program continue processing
 
-In the GUI, we open **Trading** ‚Üí **Portfolio Trader**; we can see the list and 2 tickets were created:
+In the GUI, we open **Trading** ? **Portfolio Trader**; we can see the list and 2 tickets were created:
 
 ![](SucessRunTicketsInPT.png)
 
