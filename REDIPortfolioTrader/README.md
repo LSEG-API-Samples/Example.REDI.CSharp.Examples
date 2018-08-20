@@ -1,6 +1,4 @@
-﻿# **WORK IN PROGRESS**
-
-# REDIPlus Portfolio Trader List Load in C#
+﻿# REDIPlus Portfolio Trader List Load in C#
 
 ## Introduction
 In this tutorial we demonstrate how to use the REDIPlus API (i.e. the Redilink library) to load a list of tickets into Portfolio Trader, using C# .Net code.
@@ -236,7 +234,7 @@ The API call that submits a ticket will return an error if a parameter is missin
 |Empty account|Error message: _Account is required_|Set the _rediAccount_ parameter|
 |Erroneous account|Error message: _Invalid Account for User_|Set the _rediAccount_ parameter to a valid value|
 |Empty TF user name|Error message: _Please specify the TFUser for the list_|Set the _rediUserName_ parameter|
-|Erroneous TF user name|![](TicketReject)|Set the _rediUserName_ parameter to a valid value|
+|Erroneous TF user name|![](TicketReject.png)|Set the _rediUserName_ parameter to a valid value|
 
 Note: in the last case above an error message is not returned. Instead a pop-up appears and must be manually dealt with.
 
