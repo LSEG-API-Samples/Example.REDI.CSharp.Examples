@@ -1,6 +1,4 @@
-# REDIPlus Portfolio Trader
-# Tutorial (C#)
-
-### Introduction
+# REDIPlus Portfolio Trader List Load in C#
+## Introduction
 
 WORK IN PROGRESS
