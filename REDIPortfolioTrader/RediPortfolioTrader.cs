@@ -22,19 +22,20 @@ namespace RediPortfolioTrader
         //Fill these according to your credentials and environment:
         private static string rediUserName = "YourREDIUserId";
         private static string rediAccount = "YourREDIAccount";
-        
-        private static string rediPortfolioTraderListName = "MyTestList1";
+
+        private static string rediPortfolioTraderListName = "MyTestList";
 
         private static string inputDirectory = "C:\\REDI\\Tutos\\RediPortfolioTrader\\";
         private static string ticketInputFile = inputDirectory + "PTListDemo.csv";
         //File format defined for this sample (this is not a standard, just an example):
         //1 ticket per line.
-        //Line format: <symbol>, <side (Buy or Sell)>, <quantity>
+        //Line format: <symbol>, <side (Buy or Sell)>, <quantity>, <limit price>
+        //Limit price is optional
         //Line starting with # is a comment
         //Example lines:
-        //#Symbol,Side,Qty
+        //#Symbol,Side,Qty,Limit
         //WEN,Buy,10
-        //INTC,Sell,20
+        //INTC,Sell,20,46.78
 
         private static string outputDirectory = inputDirectory;
         private static string logFileName = "RediPortfolioTrader";  //This code will add a timestamp and .log
@@ -94,12 +95,13 @@ namespace RediPortfolioTrader
             //Read input file, do some rudimentary validation on the entries.
             //For each valid entry: send order  to the Portfolio Trader list:
             //-----------------------------------------------------------------
-            String symbol, side, qty;
+            String symbol, side, qty, limit;
             String fileLine = string.Empty;
             int fileLineNumber = 0;
             int validOrdersCount = 0;
             int failedToSubmitCount = 0;
             int quantity = 0;
+            double limitPrice = 0;
             bool ignoreLine, success;
             bool endOfFile = false;
 
@@ -126,9 +128,10 @@ namespace RediPortfolioTrader
                             //Parse the file line to extract the comma separated ticket parameters:
                             string[] splitLine = fileLine.Split(new char[] { ',' });
                             symbol = splitLine[0];
-                            side = splitLine[1];
-                            qty = splitLine[2];
-                            //Validate orders parameters. If valid, submit order:
+                            side =   splitLine[1];
+                            qty =    splitLine[2];
+                            limit =  splitLine[3];
+                            //Validate ticket parameters. If valid, submit order:
                             if (!String.IsNullOrEmpty(symbol))
                             {
                                 if (side == "Buy" || side == "Sell")
@@ -137,12 +140,30 @@ namespace RediPortfolioTrader
                                     {
                                         if (quantity >= 1)
                                         {
-                                            validOrdersCount++;
-                                            //Send order to the Portfolio Trader list:
-                                            success = ptOrderSubmit(symbol, side, qty,
-                                                                    rediAccount, rediUserName, rediPortfolioTraderListName,
-                                                                    swLog);
-                                            if (!success) failedToSubmitCount++;
+                                            limitPrice = 0;
+                                            if (String.IsNullOrEmpty(limit) || double.TryParse(limit, out limitPrice))
+                                            {
+                                                if (String.IsNullOrEmpty(limit) || limitPrice > 0)
+                                                {
+                                                    validOrdersCount++;
+                                                    //Send ticket to the Portfolio Trader list:
+                                                    success = ptOrderSubmit(symbol, side, quantity, limitPrice,
+                                                                            rediAccount, rediUserName, rediPortfolioTraderListName,
+                                                                            swLog);
+                                                    if (!success) failedToSubmitCount++;
+                                                }
+                                                else
+                                                {
+                                                    DebugPrint("ERROR: input file line " + fileLineNumber +
+                                                        ": if set, limit must be > 0: " + fileLine, swLog);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                DebugPrint("ERROR: input file line " + fileLineNumber +
+                                                    ": invalid limit: " + fileLine, swLog);
+                                            }
+
                                         }
                                         else
                                         {
@@ -216,7 +237,8 @@ namespace RediPortfolioTrader
             Console.ReadLine();
         }
 
-        static bool ptOrderSubmit(String symbol, String side, String qty, String accnt, String tfUser, String tfList,
+        static bool ptOrderSubmit(String symbol, String side, int qty, double limit,
+                                  String accnt, String tfUser, String tfList,
                                   StreamWriter sw)
         {
             ORDER ptOrder = new ORDER();
@@ -227,21 +249,26 @@ namespace RediPortfolioTrader
             ptOrder.Side = side;
             ptOrder.Quantity = qty;
             ptOrder.Exchange = "*ticket";  //PT is a bunch of tickets
+            if (limit > 0) ptOrder.Price = limit;  //ptOrder.Exchange must be set before ptOrder.Price (otherwise this will be ignored)
+
             ptOrder.Account = accnt;
             ptOrder.SetTFUser(tfUser);
             ptOrder.SetTFList(tfList);
 
+            ptOrder.Warning = false;  //Disable the pop-up warning for invalid limit price
+
             success = ptOrder.Submit(ref err);
             if (!success)
             {
-                DebugPrint("ERROR: issue with ticket: " + ptOrder.Side + " " + ptOrder.Quantity + " " + ptOrder.Symbol, sw);
+                DebugPrint("ERROR: issue with ticket: " +
+                           ptOrder.Side + " " + ptOrder.Quantity + " " + ptOrder.Symbol + " " + ptOrder.Price, sw);
                 //Note: the error message might be empty, it depends on the error case
                 DebugPrint("ERROR message: " + err, sw);
             }
             else
             {
-                DebugPrint("INFO: successfully submitted ticket to PT: " +
-                           ptOrder.Side + " " + ptOrder.Quantity + " " + ptOrder.Symbol, sw);
+                DebugPrint("INFO: successfully submitted ticket: " +
+                           ptOrder.Side + " " + ptOrder.Quantity + " " + ptOrder.Symbol + " " + ptOrder.Price, sw);
             }
             return success;
         }

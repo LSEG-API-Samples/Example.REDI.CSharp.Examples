@@ -1,0 +1,34 @@
+#Symbol,Side,Qty,Limit
+WEN,Buy,10,
+T,Buy,15,33
+AMZN,Buy,8,1878.01
+INTC,Sell,20,46.78
+IBM,Sell,7,148.0
+MSFT,Buy,20,107.0
+SPY,Sell,8,286.00
+BMY,Buy,25,
+PFE,Buy,2,
+DIS,Sell,15,
+SBUX,Buy,1,
+TWTR,Buy,1,
+
+#This generates an invalid price warning (minimum price variance is 0.01):
+CSCO,Buy,1,45.999999
+
+#Lines to test file syntax errors:
+Junk line
+,Buy,1,
+CSCO,,1,
+CSCO,Hold,1,
+CSCO,Buy,,
+CSCO,Buy,many,
+CSCO,Buy,0.1,
+CSCO,Buy,10.1,
+CSCO,Buy,0,
+CSCO,Buy,1,limit
+CSCO,Buy,1,0
+CSCO,Buy,1,-45.9
+
+#Unknown instruments:
+#EMC,Sell,10,
+#YHOO,Buy,20,

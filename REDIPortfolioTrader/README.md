@@ -39,7 +39,7 @@ You can create the project manually, but note that the complete project code is 
 ### Create a project
 We start by creating a new Visual Studio project:
 
-File ? New ? Project ? Visual C# ? Console App (.NET Framework)
+File -> New -> Project -> Visual C# -> Console App (.NET Framework)
 
 ### Reference the Redi 1.0 Type Library
 The REDIPlus API is a COM library. To use it, we need to create a reference to this library. In the solution explorer, right click on **References** and select **Add Reference...** .
@@ -104,7 +104,7 @@ catch (System.Runtime.InteropServices.COMException comErr)
 ```
 
 #### Read the input CSV file
-The format of the CSV was arbitrarily defined as 1 ticket per line, each line containing the symbol, side and quantity. Empty lines and lines starting with a “#” (comment lines) are ignored. This is just a simple example; feel free to define a format that fits your use case.
+The format of the CSV was arbitrarily defined as 1 ticket per line, each line containing the symbol, side, quantity and optional limit price. Empty lines and lines starting with a “#” (comment lines) are ignored. This is just a simple example; feel free to define a format that fits your use case.
 
 Reading the file is standard C# coding, there is no need to describe that here.
 
@@ -113,6 +113,7 @@ We implemented some basic validation rules, applied to each line:
 - Check if the first item (the Symbol) exists
 - Check if the second item (the Side) is “Buy” or “Sell”
 - Check that the third item (the Quantity) is a valid number (integer, greater than 0)
+- Check that if the fourth item is defined (the limit Price) it is a valid number (float)
 
 Here is the validation code:
 
@@ -126,9 +127,10 @@ if (!ignoreLine)
     //Parse the file line to extract the comma separated ticket parameters:
     string[] splitLine = fileLine.Split(new char[] { ',' });
     symbol = splitLine[0];
-    side = splitLine[1];
-    qty = splitLine[2];
-    //Validate orders parameters. If valid, submit order:
+    side =   splitLine[1];
+    qty =    splitLine[2];
+    limit =  splitLine[3];
+    //Validate ticket parameters. If valid, submit order:
     if (!String.IsNullOrEmpty(symbol))
     {
         if (side == "Buy" || side == "Sell")
@@ -137,9 +139,13 @@ if (!ignoreLine)
             {
                 if (quantity >= 1)
                 {
-                    validOrdersCount++;
-                    //Send ticket to the Portfolio Trader list:
-
+                    limitPrice = 0;
+                    if (String.IsNullOrEmpty(limit) || double.TryParse(limit, out limitPrice))
+                    {
+                        if (String.IsNullOrEmpty(limit) || limitPrice > 0)
+                        {
+                            validOrdersCount++;
+                            //Send ticket to the Portfolio Trader list:
 ```
 
 #### Send a ticket to the Portfolio Trader list
@@ -158,7 +164,7 @@ bool success;
 
 ptOrder.Symbol = "IBM";
 ptOrder.Side = "Sell";
-ptOrder.Quantity = "7";
+ptOrder.Quantity = 7;
 ptOrder.Exchange = "*ticket";  //PT is a bunch of tickets
 ptOrder.Account = "YourREDIAccount";
 ptOrder.SetTFUser("YourREDIUserId");
@@ -169,11 +175,34 @@ success = ptOrder.Submit(ref err);
 
 The code returns a boolean to indicate submission success or failure, and in some cases an error message.
 
-In the GUI, we open **Trading** ? **Portfolio Trader**, we find the list and ticket inside the Portfolio Trader window:
+In the GUI, we open **Trading** -> **Portfolio Trader**, we find the list and ticket inside the Portfolio Trader window:
 
 ![](BasicTicketInPT.png)
 
 The tutorial code does not use hard coded values of course, but the API call and parameter list are exactly the same.
+
+##### Limit price
+Optionally, a limit price can also be added to the order. To do that, add the following code:
+
+```csharp
+ptOrder.Price = 143.31;
+```
+
+**Warning**: this line of code must come after the one that defines the exchange. If you set it before, it will be ignored.
+
+If we had set the limit price, we would have found it in the GUI:
+
+![](LimitTicketInPT.png)
+
+When a limit price is set, REDI will validate it. If the price is invalid, a warning will be displayed in a pop-up window:
+
+![](InvalidLimitPrice.png)
+
+This default behavior can be overridden, by setting another parameter to disable the warning:
+
+```csharp
+ptOrder.Warning = false;  //Disable the pop-up warning for invalid limit price
+```
 
 ## Test and run
 You first need to set the member declarations, and rebuild the solution successfully. After that you can run it.
@@ -182,19 +211,26 @@ You first need to set the member declarations, and rebuild the solution successf
 Let us use this sample input file:
 
 ```
-#Symbol,Side,Qty
-AMZN,Buy,8
-INTC,Sell,20
+#Symbol,Side,Qty,Limit
+AMZN,Buy,8,
+INTC,Sell,20, 46.78
+
+#This generates an invalid price warning (minimum price variance is 0.01):
+CSCO,Buy,1,45.999999
 
 #Lines to test file syntax errors:
 Junk line
-,Buy,1
-CSCO,,1
-CSCO,Hold,1
-CSCO,Buy,
-CSCO,Buy,many
-CSCO,Buy,0.1
-CSCO,Buy,10.1
+,Buy,1,
+CSCO,,1,
+CSCO,Hold,1,
+CSCO,Buy,,
+CSCO,Buy,many,
+CSCO,Buy,0.1,
+CSCO,Buy,10.1,
+CSCO,Buy,0,
+CSCO,Buy,1,limit
+CSCO,Buy,1,0
+CSCO,Buy,1,-45.9
 
 #Unknown instrument:
 EMC,Sell,10
@@ -209,10 +245,11 @@ Here is the output:
 The code displays information, warning and error messages, and logs them to a file. We see that:
 
 - The first 2 tickets were successfully submitted
+- The third ticket was also successfully submitted. It did not generate a warning because we disabled them
 - The CSV file erroneous lines generated errors (which we expected)
-- The unknown instrument generated an error. Note that the API call did not generate an error message, it just returned value false, indicating that the submission was not successful. But a pop-up appeared on screen, and the program waited. Only after the popup was manually acknowledged did the program continue processing
+- The unknown instrument generated an error. Note that the API call did not generate an error message; it just returned value false, indicating that the submission was not successful. But a pop-up appeared on screen, and the program waited. Only after the popup was manually acknowledged did the program continue processing
 
-In the GUI, we open **Trading** ? **Portfolio Trader**; we can see the list and 2 tickets were created:
+In the GUI, we open **Trading** -> **Portfolio Trader**; we can see the list and 2 tickets were created:
 
 ![](SucessRunTicketsInPT.png)
 
