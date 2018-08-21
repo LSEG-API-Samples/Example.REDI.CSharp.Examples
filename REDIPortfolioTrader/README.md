@@ -249,9 +249,9 @@ The code displays information, warning and error messages, and logs them to a fi
 - The CSV file erroneous lines generated errors (which we expected)
 - The unknown instrument generated an error. Note that the API call did not generate an error message; it just returned value false, indicating that the submission was not successful. But a pop-up appeared on screen, and the program waited. Only after the popup was manually acknowledged did the program continue processing
 
-In the GUI, we open **Trading** -> **Portfolio Trader**; we can see the list and 2 tickets were created:
+In the GUI, we open **Trading** -> **Portfolio Trader**; we can see the list and the tickets were created:
 
-![](SucessRunTicketsInPT.png)
+![](SuccessRunTicketsInPT.png)
 
 
 ### Troubleshooting
