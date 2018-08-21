@@ -113,7 +113,7 @@ We implemented some basic validation rules, applied to each line:
 - Check if the first item (the Symbol) exists
 - Check if the second item (the Side) is “Buy” or “Sell”
 - Check that the third item (the Quantity) is a valid number (integer, greater than 0)
-- Check that if the fourth item is defined (the limit Price) it is a valid number (float)
+- Check that if the fourth item is defined (the limit Price) it is a valid number (double)
 
 Here is the validation code:
 
