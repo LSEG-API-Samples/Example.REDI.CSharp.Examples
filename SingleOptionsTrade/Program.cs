@@ -1,8 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RediLib;
 using CommandLine;
 namespace REDI.Csharp.Examples.SingleOptionsTrade
@@ -39,7 +36,7 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
             if (!typeList.Contains(options.Type))
             {
                 ret = false;
-                Console.WriteLine("Invalid Value ({0}):\n\t -t, --type         (Default: Call) Options Type (Call or Put)", options.Type);
+                Console.WriteLine("Invalid Value ({0}):\n\t -y, --type         (Default: Call) Options Type (Call or Put)", options.Type);
             }
 
             //Verify if the value of Position is equal to Open or Close. Otherwise, the application will exit
@@ -60,7 +57,7 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
             if (!priceTypeList.Contains(options.PriceType))
             {
                 ret = false;
-                Console.WriteLine("Invalid Value {0}:\n\t -r, --pricetype    (Default: Limit) Order type of an order (Limit, Stop, Stop Limit, Market Close, Market, Limit Close)", options.PriceType);
+                Console.WriteLine("Invalid Value {0}:\n\t -p, --pricetype    (Default: Limit) Order type of an order (Limit, Stop, Stop Limit, Market Close, Market, Limit Close)", options.PriceType);
             }
 
             //Verify the requirement of price (-l, --limitprice) or stop price (-t, --stopprice) according to the price type
@@ -85,7 +82,7 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
                     if (options.StopPrice == 0)
                     {
                         ret = false;
-                        Console.WriteLine("Stop price ({0}) is required:\n\t -t, --stop         Stop Price of an order (Required by \"Stop\", \"Stop Limit\")", options.StopPrice);
+                        Console.WriteLine("Stop price ({0}) is required:\n\t -t, --stopprice         Stop Price of an order (Required by \"Stop\", \"Stop Limit\")", options.StopPrice);
                     }
                     if (options.Price != 0)
                     {
@@ -104,7 +101,7 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
                     if (options.StopPrice == 0)
                     {
                         ret = false;
-                        Console.WriteLine("Stop price ({0}) is required:\n\t -t, --stop         Stop Price of an order (Required by \"Stop\", \"Stop Limit\")", options.StopPrice);
+                        Console.WriteLine("Stop price ({0}) is required:\n\t -t, --stopprice         Stop Price of an order (Required by \"Stop\", \"Stop Limit\")", options.StopPrice);
                     }
                   
                     break;
