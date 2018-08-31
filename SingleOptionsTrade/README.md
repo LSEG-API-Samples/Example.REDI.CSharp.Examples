@@ -1,6 +1,6 @@
 # Trading Single Options in C#
 ## Introduction
-With REDI’s powerful options capabilities, users can easily trade single and complex spread strategies globally through multiple brokers. The options trade can be sent via REDIPlus UI or REDIPlus API. This tutorial demonstrates how to trade single option via REDIPlus API with C# and Visual Studio 2017. REDIPLus and the tutorial example run on the same machine, side by side.  
+With REDI’s powerful options capabilities, users can easily trade single and complex spread strategies globally through multiple brokers. The options trade can be sent via REDIPlus UI or REDIPlus API. This tutorial demonstrates how to trade single option via REDIPlus API with C# and Visual Studio 2017. REDIPlus and the tutorial example run on the same machine, side by side.  
 
 Please note that this example doesn't demonstrate how to retrieve real-time price from REDIPlus API. It just sends an options order to a demo server. 
 
@@ -110,15 +110,15 @@ An instance of **OPTIONORDER** can be used to submit an order. First, the applic
 |Price|Limit Price of an order. It is used when the price type is Limit, Limit Close, or Stop Limit|10.50|
 |StopPrice|Stop Price of an order. It is used when the price type is Stop, or Stop Limit|11.50|
 |type|Options Type (Call or Put)|Call|
-|Date|Options expiration date in REDI date format. **OPTIONORDER.GetExpirationDateAt** can be used to retrieve expiration dates, as shown in step 3. |Jul 27 '18|
-|Strike|The strike price of an option **OPTIONORDER.GetStrikeAt** can be used to retrieve expiration dates, as shown in step 4.|185.00|
+|Date|Options expiration date in REDI date format. **OPTIONORDER.GetExpirationDateAt** can be used to retrieve expiration dates, as shown in step 3|Jul 27 '18|
+|Strike|The strike price of an option. **OPTIONORDER.GetStrikeAt** can be used to retrieve expiration dates, as shown in step 4|185.00|
 |Position|Options order position (Open or Close)|Open|
 |Side|Side of an order (Buy or Sell)|Buy|
 |Exchange|Broker (or Exchange) Destination. The application can use "DEM1 DMA" for a demo server. **OPTIONORDER.GetExchangeAt** can be used to retrieve the broker/exchange destination name from the exchange list|DEM1 DMA|
 |PriceType|Order type of an order (Limit, Stop, Stop Limit, Market Close, Market, or Limit Close). **OPTIONORDER.GetPriceTypeAt** can be used to retrieve the options price type name from the price type list |Limit|
 |TIF|Time In Force for an order (Day). **OPTIONORDER.GetTIFAt** can be used to retrieve the TIF (time in force) from the TIF list |Day|
 |Account|The account used for this order. **OPTIONORDER.GetAccountAt** can be used to the account name from the account list|EQUITY-TR|
-|Ticket|The ticket associated in this order. The possible values are **Bypass**, **Direct**, **Autoticket**, and **Autocreate**. Bypass lets users trade without using a ticket|Bypass|
+|Ticket|The ticket associated in this order. The possible values are **Bypass**, **Direct**, **Autoticket**, and **Autocreate**. **Bypass** lets users trade without using a ticket|Bypass|
 
 For example, the below code is **Buy to Open** a contract for IBM Jul 27 '18 $185.00 Call at 10.50. Time in force is Day and the order type is Limit. The order will be sent to a demo server with bypass ticket.
 
