@@ -1,4 +1,4 @@
-using CommandLine;
+﻿using CommandLine;
 namespace REDI.Csharp.Examples.SingleOptionsTrade
 {
     //Define all available options for the application
@@ -22,7 +22,7 @@ namespace REDI.Csharp.Examples.SingleOptionsTrade
 
         [Option('y', "type", Default = "Call", HelpText = "Options Type (Call or Put)")]
         public string Type { get; set; }
-        [Option('x', "expdate", HelpText = "Options expiration date in REDI date format")]
+        [Option('x', "expdate", HelpText = "Options expiration date in REDI date format (e.g. \"Oct 05 '18\")")]
         public string Date { get; set; }
 
         [Option('k', "strike", HelpText = "The strike price of an option")]
