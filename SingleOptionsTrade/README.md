@@ -111,7 +111,7 @@ An instance of **OPTIONORDER** can be used to submit an order. First, the applic
 |StopPrice|Stop Price of an order. It is used when the price type is Stop, or Stop Limit|11.50|
 |type|Options Type (Call or Put)|Call|
 |Date|Options expiration date in REDI date format. **OPTIONORDER.GetExpirationDateAt** can be used to retrieve expiration dates, as shown in step 3|Jul 27 '18|
-|Strike|The strike price of an option. **OPTIONORDER.GetStrikeAt** can be used to retrieve expiration dates, as shown in step 4|185.00|
+|Strike|The strike price of an option. **OPTIONORDER.GetStrikeAt** can be used to retrieve strike prices, as shown in step 4|185.00|
 |Position|Options order position (Open or Close)|Open|
 |Side|Side of an order (Buy or Sell)|Buy|
 |Exchange|Broker (or Exchange) Destination. The application can use "DEM1 DMA" for a demo server. **OPTIONORDER.GetExchangeAt** can be used to retrieve the broker/exchange destination name from the exchange list|DEM1 DMA|
@@ -170,7 +170,7 @@ The application depends on the **CommandLineParser** package to manipulate comma
 
   -y, --type          (Default: Call) Options Type (Call or Put)
 
-  -x, --expdate       Options expiration date in REDI date format
+  -x, --expdate       Options expiration date in REDI date format (e.g. "Oct 05 '18")
 
   -k, --strike        The strike price of an option
 
