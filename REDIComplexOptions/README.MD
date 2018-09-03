@@ -1,20 +1,6 @@
 # Trading Complex Options in C#
 ## Introduction
-With REDI’s powerful options capabilities, users can easily trade single and complex spread strategies globally through multiple brokers. The options trade can be sent via REDIPlus UI or REDIPlus API. This tutorial demonstrates how to trade complex option via REDIPlus API with C# and Visual Studio 2017. REDIPlus and the tutorial example run on the same machine, side by side. REDIPlus supports the following strategies of complex options order:
-
-* Box
-* Butterfly
-* Buy-Write
-* Calendar
-* Delta Neutral
-* Diagonal
-* Married Put
-* Ratio Orders
-* Reverse Conversion
-* Straddle
-* Strangle
-* Vertical
-
+With REDI’s powerful options capabilities, users can easily trade single and complex spread strategies globally through multiple brokers. The options trade can be sent via REDIPlus UI or REDIPlus API. This tutorial demonstrates how to trade complex option via REDIPlus API with C# and Visual Studio 2017. REDIPlus and the tutorial example run on the same machine, side by side. REDIPlus supports several strategies for complex options orders.
 
 Please note that this example doesn't demonstrate how to retrieve real-time price from REDIPlus API. It just sends an options order to a demo server. 
 
@@ -61,7 +47,7 @@ using RediLib;
 
 The expiration date is a required field for trade options. **RediLib.OPTIONORDER** can be used to get the list of expiration dates for an option.
 
-First, the application creates a new instance of **RediLib.OPTIONORDER** and set an option in its **Symbol** property.
+First, the application creates a new instance of **RediLib.OPTIONORDER** and sets an option in its **Symbol** property.
 
 ```csharp
 OPTIONORDER objOrder = new OPTIONORDER();
@@ -88,7 +74,7 @@ for (int i = 0; i < (int)objExpirationCount; i++)
 
 The strike price is a required field for trade options. **RediLib.OPTIONORDER** can be used to get the list of strike prices for an option.
 
-First, the application creates a new instance of **RediLib.OPTIONORDER** and populate it with an option symbol, option type (Call or Put), and expiration date. For example:
+First, the application creates a new instance of **RediLib.OPTIONORDER** and populates it with an option symbol, option type (Call or Put), and expiration date. For example:
 
 ```csharp
 OPTIONORDER objOrder = new OPTIONORDER();
@@ -134,19 +120,19 @@ The valid values for the strategy are:
 * Strangle
 * Vertical
 
-**6. Populate the order information at the first zero-based index**
+**6. Populate the order information at the 0th index**
 
 Then, the application calls the following methods at the 0th index to set the order information.
 
 
 |Method Name|Description|Example|
 |-------------|-----------|-------|
-|SetSymbol|This method assigns a underlying product of a complex order object|IBM|
+|SetSymbol|This method assigns an underlying product of a complex order object|IBM|
 |SetExchange|This method assigns a broker destination name of a complex order object. The application can use "DEM2 DMA" for a demo server. **OPTIONORDER.GetExchangeAt** can be used to retrieve the broker/exchange destination name from the exchange list|DEM2 DMA|
 |SetPriceType|This method assigns an order type of a complex order object. Valid values are **Market** and **Limit**|Limit|
-|SetTIF|This method assigns a TIF (Time In Force) of a complex order object. Valid values are **Day**, **IOC**, **FOK** and **OPG**. Most brokers support **Day** only|Day|
+|SetTIF|This method assigns a TIF (Time In Force) of a complex order object. Valid values are:<ul><li>**Day**</li><li>**IOC** (Immediate-or-Cancel)</li><li>**FOK** (Fill-or-Kill)</li><li>**OPG** (For market-on-open (MOO) or limit-on-open (LOO) order)</li></ul> Most brokers support **Day** only|Day|
 |SetQuantity|This method assigns order quantity of a complex order object|1|
-|SetAccount|This method assigns an account name to a complex order object. **OPTIONORDER.GetAccountAt** can be used to the account name from the account list|EQUITY-TR|
+|SetAccount|This method assigns an account name to a complex order object. **OPTIONORDER.GetAccountAt** can be used to get the account name from the account list|EQUITY-TR|
 
 For example, the below code setups a complex option order for **IBM**. Time in force is **Day** and the order type is **Limit**. The order will be sent to a demo server.
 
@@ -227,7 +213,7 @@ else
 ```
 
 
-The **Submit** returns **True** if order submission was successfully. Otherwise it will return **False**. If it returns **False**, the failure reason will be populated in the reference variable passed as a string argument. 
+The **Submit** returns **True** if order submission was successful. Otherwise it will return **False**. If it returns **False**, the failure reason will be populated in the reference variable passed as a string argument. 
 
 ## Example
 The simple application called **VerticalSpreadOptionsTrade** is developed to demonstrate how to send a vertical complex option order. It supports the following parameters:
@@ -261,9 +247,9 @@ The simple application called **VerticalSpreadOptionsTrade** is developed to dem
   --position2         (Default: Open) Options order position of the second leg (Open or
                       Close)
 
-  --date1             Options expiration date in REDI date format of the first leg
+  --date1             Options expiration date in REDI date format of the first leg (e.g. "Oct 05 '18")
 
-  --date2             Options expiration date in REDI date format of the second leg
+  --date2             Options expiration date in REDI date format of the second leg (e.g. "Oct 05 '18")
 
   --strike1           The strike price of the first leg
 
@@ -279,7 +265,7 @@ The application behaviors are:
 * The symbol (-s, --symbol) is a required argument
 * The Price (-l, --limitprice) is required when the value of price type (-p, --pricetype) is **Limit**
 * If the expiration dates are not specified, the application will use the first available expiration date returned from the **OPTIONORDER.GetExpirationDateAt** method
-* If the stike prices are not specfied, the application will use the first and second available strike price returned from the **OPTIONORDER.GetStrikeAt** method
+* If the strike prices are not specfied, the application will use the first and second available strike price returned from the **OPTIONORDER.GetStrikeAt** method
 * If the account (-a, --account) is not specified, the application will use the first available account returned from the **OPTIONORDER.GetAccountAt** method
 * By default, it sends an order to the demo server which can be overridden via the (-e, --exchange) parameter
 * The application can specify the information of the first leg via --type1, --side1, --position1, --date1, and --strike1 parameters
