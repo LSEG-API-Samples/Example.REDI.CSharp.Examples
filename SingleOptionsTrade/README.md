@@ -149,7 +149,7 @@ if (!status)
     Console.WriteLine($"{(string)ord_err}");
 }
 ```
-This method returns **True** if order submission was successfully. Otherwise it will return **False**. If it returns **False**, the failure reason will be populated in the reference variable passed as a string argument. 
+This method returns **True** if order submission was successful. Otherwise it will return **False**. If it returns **False**, the failure reason will be populated in the reference variable passed as a string argument. 
 
 ## Example
 The simple application called **SingleOptionsTrade** is developed to demonstrate how to send a single options trade.
