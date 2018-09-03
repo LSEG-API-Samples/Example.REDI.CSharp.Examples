@@ -40,10 +40,10 @@ namespace REDI.Csharp.Examples.VerticalOptionsTrade
         [Option("position2", Default = "Open", HelpText = "Options order position of the second leg (Open or Close)")]
         public string Position2 { get; set; }
 
-        [Option("date1", HelpText = "Options expiration date in REDI date format of the first leg")]
+        [Option("date1", HelpText = "Options expiration date in REDI date format of the first leg (e.g. \"Oct 05 '18\")")]
         public string Date1 { get; set; }
 
-        [Option("date2", HelpText = "Options expiration date in REDI date format of the second leg")]
+        [Option("date2", HelpText = "Options expiration date in REDI date format of the second leg (e.g. \"Oct 05 '18\")")]
         public string Date2 { get; set; }
 
         [Option("strike1", HelpText = "The strike price of the first leg")]
