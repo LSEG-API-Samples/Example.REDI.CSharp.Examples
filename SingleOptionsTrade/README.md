@@ -117,7 +117,7 @@ An instance of **OPTIONORDER** can be used to submit an order. First, the applic
 |Exchange|Broker (or Exchange) Destination. The application can use "DEM1 DMA" for a demo server. **OPTIONORDER.GetExchangeAt** can be used to retrieve the broker/exchange destination name from the exchange list|DEM1 DMA|
 |PriceType|Order type of an order (Limit, Stop, Stop Limit, Market Close, Market, or Limit Close). **OPTIONORDER.GetPriceTypeAt** can be used to retrieve the options price type name from the price type list |Limit|
 |TIF|Time In Force for an order (Day). **OPTIONORDER.GetTIFAt** can be used to retrieve the TIF (time in force) from the TIF list |Day|
-|Account|The account used for this order. **OPTIONORDER.GetAccountAt** can be used to the account name from the account list|EQUITY-TR|
+|Account|The account used for this order. **OPTIONORDER.GetAccountAt** can be used to get the account name from the account list|EQUITY-TR|
 |Ticket|The ticket associated in this order. The possible values are **Bypass**, **Direct**, **Autoticket**, and **Autocreate**. **Bypass** lets users trade without using a ticket|Bypass|
 
 For example, the below code is **Buy to Open** a contract for IBM Jul 27 '18 $185.00 Call at 10.50. Time in force is Day and the order type is Limit. The order will be sent to a demo server with bypass ticket.
