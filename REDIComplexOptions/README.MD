@@ -163,7 +163,7 @@ Next, the application starts populating multiple legs at the 1st index. For exam
 |SetPosition|This method assigns an option position to nth leg of a complex order object. Valid values are **Open** and **Close**|Open|
 |SetOptType|This method assigns an option type to nth leg of a complex order object. Valid values are **Put** and **Call**|Put|
 |SetMonth|This method assigns an options expiration date in REDI date format to nth leg of a complex order object. **OPTIONORDER.GetExpirationDateAt** can be used to retrieve expiration dates, as shown in step 3|Oct 05 '18|
-|SetStrike|This method assigns a strike price to nth leg of a complex order object. **OPTIONORDER.GetStrikeAt** can be used to retrieve expiration dates, as shown in step 4|185.00|
+|SetStrike|This method assigns a strike price to nth leg of a complex order object. **OPTIONORDER.GetStrikeAt** can be used to retrieve strike prices, as shown in step 4|185.00|
 |SetAccount|This method assigns an account name to nth leg of a complex order object. **OPTIONORDER.GetAccountAt** can be used to the account name from the account list|EQUITY-TR|
 
 
