@@ -299,7 +299,7 @@ The order can be verified from the Message Monitor.
 
 ![](complex1.png)
 
-**2. Send a vertical complex order for IBM with Market price type**
+**2. Send a vertical complex order for IBM with the Market price type**
 ```
 VerticalSpreadOptionsTrade.exe -s IBM -p Market
 ```
