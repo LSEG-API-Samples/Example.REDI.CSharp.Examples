@@ -1,13 +1,14 @@
 # Trading Complex Options in C#
 ## Introduction
-With REDI’s powerful options capabilities, users can easily trade single and complex spread strategies globally through multiple brokers. The options trade can be sent via REDIPlus UI or REDIPlus API. This tutorial demonstrates how to trade complex option via REDIPlus API with C# and Visual Studio 2017. REDIPlus and the tutorial example run on the same machine, side by side. REDIPlus supports several strategies for complex options orders.
+With REDIPlus’s powerful options capabilities, users can easily trade single and complex spread strategies globally through multiple brokers. The options trade can be sent via REDIPlus UI or REDIPlus API. This tutorial demonstrates how to trade complex option via REDIPlus API with C# and Visual Studio 2017. REDIPlus and the tutorial example run on the same machine, side by side. REDIPlus supports several strategies for complex options orders.
 
-Please note that this example doesn't demonstrate how to retrieve real-time price from REDIPlus API. It just sends an options order to a demo server. 
+Please note that this example doesn't demonstrate how to retrieve real-time price from REDIPlus API. Rather, this tutorial is focused on sending complex options orders.
 
 ## Prerequisites
 
 * REDIPlus is installed
 * REDIPlus valid credentials are used to login
+* User has access to the REDI broker simulator route (for testing purposes)
 * Visual Studio 2017
 * REDIPlus API
 
@@ -45,7 +46,7 @@ using RediLib;
 ```
 **3. Get expiration dates**
 
-The expiration date is a required field for trade options. **RediLib.OPTIONORDER** can be used to get the list of expiration dates for an option.
+The expiration date is a required field for trading options. **RediLib.OPTIONORDER** can be used to get the list of expiration dates for an option.
 
 First, the application creates a new instance of **RediLib.OPTIONORDER** and sets an option in its **Symbol** property.
 
@@ -128,7 +129,7 @@ Then, the application calls the following methods at the 0th index to set the or
 |Method Name|Description|Example|
 |-------------|-----------|-------|
 |SetSymbol|This method assigns an underlying product of a complex order object|IBM|
-|SetExchange|This method assigns a broker destination name of a complex order object. The application can use "DEM2 DMA" for a demo server. **OPTIONORDER.GetExchangeAt** can be used to retrieve the broker/exchange destination name from the exchange list|DEM2 DMA|
+|SetExchange|This method assigns a broker destination name of a complex order object. The application can use "DEM2 DMA" for a broker simulator. **OPTIONORDER.GetExchangeAt** can be used to retrieve the broker/exchange destination name from the exchange list|DEM2 DMA|
 |SetPriceType|This method assigns an order type of a complex order object. Valid values are **Market** and **Limit**|Limit|
 |SetTIF|This method assigns a TIF (Time In Force) of a complex order object. Valid values are:<ul><li>**Day**</li><li>**IOC** (Immediate-or-Cancel)</li><li>**FOK** (Fill-or-Kill)</li><li>**OPG** (For market-on-open (MOO) or limit-on-open (LOO) order)</li></ul> Most brokers support **Day** only|Day|
 |SetQuantity|This method assigns order quantity of a complex order object|1|
