@@ -368,7 +368,7 @@ The order can be verified from the Message Monitor.
 
 ![](Order1_1.png)
 
-**2. Buy to Open a contract of IBM Nov '18 145 put with the market price type**
+**2. Buy to Open a contract of IBM Nov '18 145 put with the Market price type**
 ```
 OptionsTrade.exe -s IBM -x "Nov '18" -k 145 -y Put -p Market
 ```
