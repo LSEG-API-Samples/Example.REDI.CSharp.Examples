@@ -118,7 +118,7 @@ An instance of **OPTIONORDER** can be used to submit an order. First, the applic
 |Strike|The strike price of an option. **OPTIONORDER.GetStrikeAt** can be used to retrieve strike prices, as shown in step 4|185.00|
 |Position|Options order position (Open or Close)|Open|
 |Side|Side of an order (Buy or Sell)|Buy|
-|Exchange|Broker (or Exchange) Destination. The application can use "DEM1 DMA" for a demo simulator. **OPTIONORDER.GetExchangeAt** can be used to retrieve the broker/exchange destination name from the exchange list|DEM1 DMA|
+|Exchange|Broker (or Exchange) Destination. The application can use "DEM1 DMA" for a broker simulator. **OPTIONORDER.GetExchangeAt** can be used to retrieve the broker/exchange destination name from the exchange list|DEM1 DMA|
 |PriceType|Order type of an order (Limit, Stop, Stop Limit, Market Close, Market, or Limit Close). **OPTIONORDER.GetPriceTypeAt** can be used to retrieve the options price type name from the price type list |Limit|
 |TIF|Time In Force for an order (Day). **OPTIONORDER.GetTIFAt** can be used to retrieve the TIF (time in force) from the TIF list |Day|
 |Account|The account used for this order. **OPTIONORDER.GetAccountAt** can be used to get the account name from the account list|EQUITY-TR|
