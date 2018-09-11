@@ -1,13 +1,19 @@
 # Trading Single Options in C#
 ## Introduction
-With REDI’s powerful options capabilities, users can easily trade single and complex spread strategies globally through multiple brokers. The options trade can be sent via REDIPlus UI or REDIPlus API. This tutorial demonstrates how to trade single option via REDIPlus API with C# and Visual Studio 2017. REDIPlus and the tutorial example run on the same machine, side by side.  
+With REDIPlus’s powerful options capabilities, users can easily trade single and complex spread strategies globally through multiple brokers. The options trade can be sent via REDIPlus UI or REDIPlus API. This tutorial demonstrates how to trade single option via REDIPlus API with C# and Visual Studio 2017. REDIPlus and the tutorial example run on the same machine, side by side.  
 
-Please note that this example doesn't demonstrate how to retrieve real-time price from REDIPlus API. It just sends an options order to a demo server. 
+Please note that this example doesn't demonstrate how to retrieve real-time price from REDIPlus API. Rather, this tutorial is focused on sending options orders.
+
+The complete project code is available for download at [SingleOptionsTrade](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/tree/master/SingleOptionsTrade).
+
+
+
 
 ## Prerequisites
 
 * REDIPlus is installed
 * REDIPlus valid credentials are used to login
+* User has access to the REDI broker simulator route (for testing purposes)
 * Visual Studio 2017
 * REDIPlus API
 
@@ -36,8 +42,6 @@ After adding the **Redi 1.0 Type Library**, expand the **References** in the so
 
 ![](References.png)
 
-
-
 Then, add the **using** directive to the code to allow the use of types in the RediLib namespace.
 
 ```csharp
@@ -46,9 +50,9 @@ using RediLib;
 
 **3. Get expiration dates**
 
-The expiration date is a required field for trade options. **RediLib.OPTIONORDER** can also be used to get the list of expiration dates for an option.
+The expiration date is a required field for trading options. **RediLib.OPTIONORDER** can also be used to get the list of expiration dates for an option.
 
-First, the application creates a new instance of **RediLib.OPTIONORDER** and set an option in its **Symbol** property.
+First, the application creates a new instance of **RediLib.OPTIONORDER** and sets an option in its **Symbol** property.
 
 ```csharp
 OPTIONORDER objOrder = new OPTIONORDER();
@@ -114,11 +118,11 @@ An instance of **OPTIONORDER** can be used to submit an order. First, the applic
 |Strike|The strike price of an option. **OPTIONORDER.GetStrikeAt** can be used to retrieve strike prices, as shown in step 4|185.00|
 |Position|Options order position (Open or Close)|Open|
 |Side|Side of an order (Buy or Sell)|Buy|
-|Exchange|Broker (or Exchange) Destination. The application can use "DEM1 DMA" for a demo server. **OPTIONORDER.GetExchangeAt** can be used to retrieve the broker/exchange destination name from the exchange list|DEM1 DMA|
+|Exchange|Broker (or Exchange) Destination. The application can use "DEM1 DMA" for a demo simulator. **OPTIONORDER.GetExchangeAt** can be used to retrieve the broker/exchange destination name from the exchange list|DEM1 DMA|
 |PriceType|Order type of an order (Limit, Stop, Stop Limit, Market Close, Market, or Limit Close). **OPTIONORDER.GetPriceTypeAt** can be used to retrieve the options price type name from the price type list |Limit|
 |TIF|Time In Force for an order (Day). **OPTIONORDER.GetTIFAt** can be used to retrieve the TIF (time in force) from the TIF list |Day|
 |Account|The account used for this order. **OPTIONORDER.GetAccountAt** can be used to get the account name from the account list|EQUITY-TR|
-|Ticket|The ticket associated in this order. The possible values are **Bypass**, **Direct**, **Autoticket**, and **Autocreate**. **Bypass** lets users trade without using a ticket|Bypass|
+|Ticket|The ticket associated in this order. The possible values are **Bypass**, **Direct**, **Autoticket**, and **Autocreate**. <ul><li>**Bypass** lets users trade without using tickets</li><li>**Direct** also lets users trade without using tickets</li><li>**Stage** lets a staged order created in REDI, which must be manually released in REDI before it goes to the broker</li><li>**Autoticket** simultaneously creates a ticket and an order</li></ul>|Bypass|
 
 For example, the below code is **Buy to Open** a contract for IBM Jul 27 '18 $185.00 Call at 10.50. Time in force is Day and the order type is Limit. The order will be sent to a demo server with bypass ticket.
 
@@ -337,24 +341,23 @@ Then, it calls **OPTIONORDER.Submit** to submit the order. If the submit returns
 
 ## Test and Run
 
-**1. Buy to Open a call contract for IBM at 15.20**
+**1. Buy to Open a contract of IBM Nov '18 140 call at 15.20**
 ```
-OptionsTrade.exe -s IBM -l 15.20
+OptionsTrade.exe -s IBM -x "Nov '18" -k 140 -l 15.20
 ```
-The command runs with symbol (-s) and limit price (-l) options. Therefore, it uses the first expiration date, strike price, and account retrieved from the REDIPlus API. For other options, the default values are used.
+The command runs with the symbol (-s), expiration data (-x), strike price (-k) and limit price (-l) options. Therefore, it uses the account retrieved from the REDIPlus API. For other options, the default values are used.
 
 ```
 Send an order with the following options:
 Symbol: IBM
-Quantity: 1
+PriceType: Limit
 Limit Price: 15.20
-Stop Price:0
+Quantity: 1
 Type: Call
-Date: Jul 27 '18
-Strike: 100.00
+Date: Nov '18
+Strike: 140
 Position: Open
 Exchange: DEM1 DMA
-PriceType: Limit
 TIF: Day
 Account: EQUITY-TR
 Ticket: Bypass
@@ -363,24 +366,24 @@ Order has been submitted properly
 ```
 The order can be verified from the Message Monitor.
 
-![](Order1.png)
+![](Order1_1.png)
 
-**2. Buy to Open a put contract for IBM at the best available current price**
+**2. Buy to Open a contract of IBM Nov '18 145 put with the market price type**
 ```
-OptionsTrade.exe -s IBM -y Put -p Market
+OptionsTrade.exe -s IBM -x "Nov '18" -k 145 -y Put -p Market
 ```
-The command runs with symbol (-s), type (-y), and price type (-p) options. Therefore, it uses the first expiration date, strike price, and account retrieved from the REDIPlus API. For other options, the default values are used.
+The command runs with the symbol (-s), expiration date (-x), strike price (-k), type (-y), and price type (-p) options. Therefore, it uses the account retrieved from the REDIPlus API. For other options, the default values are used.
 
 ```
 Send an order with the following options:
 Symbol: IBM
+PriceType: Market
 Quantity: 1
 Type: Put
-Date: Jul 27 '18
-Strike: 100.00
+Date: Nov '18
+Strike: 145
 Position: Open
 Exchange: DEM1 DMA
-PriceType: Market
 TIF: Day
 Account: EQUITY-TR
 Ticket: Bypass
@@ -389,25 +392,25 @@ Order has been submitted properly
 ```
 The order can be verified from the Message Monitor.
 
-![](Order2.png)
+![](Order2_1.png)
 
-**3. Buy to Open two call contracts for IBM Aug 03 '18 at 15.20**
+**3. Buy to Open two contract of IBM Nov '18 140 call at 15.20**
 ```
-OptionsTrade.exe -s IBM -l 15.20 -q 2 -x "Aug 03 '18"
+OptionsTrade.exe -s IBM -x "Nov '18" -k 140 -l 15.20 -q 2
 ```
-The command runs with symbol (-s), limit price (-l), quantity (-q), and expiration date (-x) options. Therefore, it uses the first strike price, and account retrieved from the REDIPlus API. For other options, the default values are used.
+The command runs with the symbol (-s), expiration date (-x), strike price (-k), limit price (-l), and quantity (-q) options. Therefore, it uses account retrieved from the REDIPlus API. For other options, the default values are used.
 
 ```
 Send an order with the following options:
 Symbol: IBM
-Quantity: 2
+PriceType: Limit
 Limit Price: 15.20
+Quantity: 2
 Type: Call
-Date: Aug 03 '18
-Strike: 110.00
+Date: Nov '18
+Strike: 140
 Position: Open
 Exchange: DEM1 DMA
-PriceType: Limit
 TIF: Day
 Account: EQUITY-TR
 Ticket: Bypass
@@ -416,7 +419,7 @@ Order has been submitted properly
 ```
 The order can be verified from the Message Monitor.
 
-![](Order3.png)
+![](Order3_1.png)
 
 If it returns an **Invalid Date** error, the format of expiration date may be incorrect or the expiration date is invalid. To retrieve all valid expiration dates, the application can call the **GetExpirationDatesCount** and **GetExpirationDateAt** functions.
 
