@@ -275,11 +275,11 @@ The application behaviors are:
 
 ## Test and Run
 
-**1. Send a vertical complex order for IBM at 15.20**
+**1. Send a vertical complex order for IBM Aug 31 '18 124 call and Aug 31 '18 125 call at 15.20**
 ```
-VerticalSpreadOptionsTrade.exe -s IBM -l 15.20
+VerticalSpreadOptionsTrade.exe -s IBM --date1 "Aug 31 '18" --strike1 124 --date2 "Aug 31 '18" --strike2 125 -l 15.20
 ```
-The command runs with symbol (-s) and limit price (-l) options. Therefore, it uses the expiration date, strike price, and account retrieved from the REDIPlus API. For other options, the default values are used.
+The command runs with the symbol (-s), expiration dates (--date1, --date2), strike prices (--strike1, --strike2), and limit price (-l) options. Therefore, the account is retrieved from the REDIPlus API. For other options, the default values are used.
 
 ```
 Send a vertical spread order with the following options:
@@ -299,11 +299,11 @@ The order can be verified from the Message Monitor.
 
 ![](complex1.png)
 
-**2. Send a vertical complex order for IBM with the Market price type**
+**2. Send a vertical complex order for IBM Aug 31 '18 124 call and Aug 31 '18 125 call with the Market price type**
 ```
-VerticalSpreadOptionsTrade.exe -s IBM -p Market
+VerticalSpreadOptionsTrade.exe -s IBM --date1 "Aug 31 '18" --strike1 124 --date2 "Aug 31 '18" --strike2 125  -p Market
 ```
-The command runs with symbol (-s), and price type (-p) options. Therefore, it uses the expiration date, strike price, and account retrieved from the REDIPlus API. For other options, the default values are used.
+The command runs with the symbol (-s), expiration dates (--date1, --date2), strike prices (--strike1, --strike2), and price type (-p) options. Therefore, the account is retrieved from the REDIPlus API. For other options, the default values are used.
 
 ```
 Send a vertical spread order with the following options:
@@ -321,29 +321,6 @@ Order has been submitted properly
 The order can be verified from the Message Monitor.
 
 ![](complex2.png)
-
-**3. Send a vertical complex order with expiration dates and strike prices**
-```
-VerticalSpreadOptionsTrade.exe -s IBM -p Market -q 2 --date1 "Dec '18" --strike1 145 --date2 "Jan '19" --strike2 150
-```
-The command runs with symbol (-s), price type (-p), quantity (-q), and expiration dates and strike prices for the first and second legs. Therefore, it uses the account retrieved from the REDIPlus API. For other options, the default values are used.
-
-```
-Send a vertical spread order with the following options:
-Symbol: IBM
-PriceType: Market
-Quantity: 2
-Exchange: DEM2 DMA
-TIF: Day
-Account: EQUITY-TR
-==============================
-Leg 1: Call Buy Open Dec '18 145
-Leg 2: Call Sell Open Jan '19 150
-Order has been submitted properly
-```
-The order can be verified from the Message Monitor.
-
-![](complex3.png)
 
 ## Summary
 
