@@ -135,7 +135,7 @@ Then, the application calls the following methods at the 0th index to set the or
 |SetQuantity|This method assigns order quantity of a complex order object|1|
 |SetAccount|This method assigns an account name to a complex order object. **OPTIONORDER.GetAccountAt** can be used to get the account name from the account list|EQUITY-TR|
 
-For example, the below code setups a complex option order for **IBM**. Time in force is **Day** and the order type is **Limit**. The order will be sent to a demo server.
+For example, the below code setups a complex option order for **IBM**. Time in force is **Day** and the order type is **Limit**. The order will be sent to a broker simulator.
 
 ```csharp
 objOrder.SetSymbol(0, "IBM");
@@ -268,7 +268,7 @@ The application behaviors are:
 * If the expiration dates are not specified, the application will use the first available expiration date returned from the **OPTIONORDER.GetExpirationDateAt** method
 * If the strike prices are not specfied, the application will use the first and second available strike price returned from the **OPTIONORDER.GetStrikeAt** method
 * If the account (-a, --account) is not specified, the application will use the first available account returned from the **OPTIONORDER.GetAccountAt** method
-* By default, it sends an order to the demo server which can be overridden via the (-e, --exchange) parameter
+* By default, it sends an order to the broker simulator which can be overridden via the (-e, --exchange) parameter
 * The application can specify the information of the first leg via --type1, --side1, --position1, --date1, and --strike1 parameters
 * The application can specify the information of the second leg via --type2, --side2, --position2, --date2, and --strike2 parameters
 
