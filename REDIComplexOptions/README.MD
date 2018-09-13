@@ -73,7 +73,7 @@ for (int i = 0; i < (int)objExpirationCount; i++)
 
 **4. Get strike prices**
 
-The strike price is a required field for trade options. **RediLib.OPTIONORDER** can be used to get the list of strike prices for an option.
+The strike price is a required field for trading options. **RediLib.OPTIONORDER** can be used to get the list of strike prices for an option.
 
 First, the application creates a new instance of **RediLib.OPTIONORDER** and populates it with an option symbol, option type (Call or Put), and expiration date. For example:
 
