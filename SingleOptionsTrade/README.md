@@ -124,7 +124,7 @@ An instance of **OPTIONORDER** can be used to submit an order. First, the applic
 |Account|The account used for this order. **OPTIONORDER.GetAccountAt** can be used to get the account name from the account list|EQUITY-TR|
 |Ticket|The ticket associated in this order. The possible values are **Bypass**, **Direct**, **Stage**, **Autoticket**, and **Autocreate**. <ul><li>**Bypass** lets users trade without using tickets</li><li>**Direct** also lets users trade without using tickets</li><li>**Stage** lets a staged order created in REDI, which must be manually released in REDI before it goes to the broker</li><li>**Autoticket** trades the order attributing to the ticket, using FIFO methodology</li><li>**Autocreate** simultaneously creates a ticket and an order</li></ul>|Bypass|
 
-For example, the below code is **Buy to Open** a contract for IBM Jul 27 '18 $185.00 Call at 10.50. Time in force is Day and the order type is Limit. The order will be sent to a demo server with bypass ticket.
+For example, the below code is **Buy to Open** a contract for IBM Jul 27 '18 $185.00 Call at 10.50. Time in force is Day and the order type is Limit. The order will be sent to a broker simulator with bypass ticket.
 
 ```csharp
 OPTIONORDER objOrder = new OPTIONORDER();
