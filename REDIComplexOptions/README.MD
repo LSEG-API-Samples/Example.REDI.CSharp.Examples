@@ -4,11 +4,13 @@ With REDIPlus’s powerful options capabilities, users can easily trade single a
 
 Please note that this example doesn't demonstrate how to retrieve real-time price from REDIPlus API. Rather, this tutorial is focused on sending complex options orders.
 
+The complete project code is available for download at [REDIComplexOptions](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/tree/master/REDIComplexOptions).
+
 ## Prerequisites
 
 * REDIPlus is installed
 * REDIPlus valid credentials are used to login
-* User has access to the REDI broker simulator route (for testing purposes)
+* A User has access to the REDI broker simulator route (for testing purposes)
 * Visual Studio 2017
 * REDIPlus API
 
@@ -33,7 +35,7 @@ Click on **OK** button to add REDIPlus API to the project.
 
 If **Redi 1.0 Type Library** doesn't appear on the list, click **Browser...** button to locate the **Redi.tlb** file. Typically, this file should be found in **%LOCALAPPDATA%\REDI Tech\Primary** folder.
 
-After adding the **Redi 1.0 Type Library**, expand the **References** in the solution explorer. The **RediLib** will be appeared in the list.
+After adding the **Redi 1.0 Type Library**, expand the **References** in the solution explorer. The **RediLib** will appear on the list.
 
 ![](References.png)
 
@@ -84,7 +86,7 @@ objOrder.type = "Call";
 objOrder.Date = "Jul 27 '18";
 ```
 
-Next, it calls **GetStrikesCount** to get the count of options strike prices based on the order object. The count is returned in the reference variable passed as an argument.
+Next, it calls **GetStrikesCount** to get the count of options' strike prices based on the order object. The count is returned in the reference variable passed as an argument.
 ```csharp
 object objStrikeCount = null;
 objOrder.GetStrikesCount(ref objStrikeCount);
@@ -135,7 +137,7 @@ Then, the application calls the following methods at the 0th index to set the or
 |SetQuantity|This method assigns order quantity of a complex order object|1|
 |SetAccount|This method assigns an account name to a complex order object. **OPTIONORDER.GetAccountAt** can be used to get the account name from the account list|EQUITY-TR|
 
-For example, the below code setups a complex option order for **IBM**. Time in force is **Day** and the order type is **Limit**. The order will be sent to a broker simulator.
+For example, the below code setups a complex option order for **IBM**. Time in force is **Day** and the order type is **Limit**. The order will be sent to a broker simulator server.
 
 ```csharp
 objOrder.SetSymbol(0, "IBM");
@@ -149,7 +151,7 @@ objOrder.SetAccount(0, "EQUITY-TR");
 
 **7. Populate option strategy legs**
 
-A complex option order contains multiple legs. The number of legs depends on the strategy type.  The application can call the **COMPLEXORDER.GetLogsCount** method to get number of legs requried by a complex option order. For example, the **Vertical** strategy requires two legs.
+A complex option order contains multiple legs. The number of legs depends on the strategy type.  The application can call the **COMPLEXORDER.GetLogsCount** method to get a number of legs required by a complex option order. For example, the **Vertical** strategy requires two legs.
 
 ```csharp
 string legsCount = objOrder.GetLegsCount();
@@ -191,7 +193,7 @@ objOrder.SetAccount(2, "EQUITY-TR");
 ```
 **8. Set price and submit a complex order**
 
-If the price type of a complex option order is **Limit**, the price must be set by call the **SetPrice** method at the 0th index before submitting an order. 
+If the price type of a complex option order is **Limit**, the price must be set by calling the **SetPrice** method at the 0th index before submitting an order. 
 
 However if the price type is **Market**, the **Submit** method can be called without setting the price.
 
@@ -214,7 +216,7 @@ else
 ```
 
 
-The **Submit** returns **True** if order submission was successful. Otherwise it will return **False**. If it returns **False**, the failure reason will be populated in the reference variable passed as a string argument. 
+The **Submit** returns **True** if order submission was successful. Otherwise, it will return **False**. If it returns **False**, the failure reason will be populated in the reference variable passed as a string argument. 
 
 ## Example
 The simple application called **VerticalSpreadOptionsTrade** is developed to demonstrate how to send a vertical complex option order. It supports the following parameters:
@@ -266,9 +268,9 @@ The application behaviors are:
 * The symbol (-s, --symbol) is a required argument
 * The Price (-l, --limitprice) is required when the value of price type (-p, --pricetype) is **Limit**
 * If the expiration dates are not specified, the application will use the first available expiration date returned from the **OPTIONORDER.GetExpirationDateAt** method
-* If the strike prices are not specfied, the application will use the first and second available strike price returned from the **OPTIONORDER.GetStrikeAt** method
+* If the strike prices are not specified, the application will use the first and second available strike price returned from the **OPTIONORDER.GetStrikeAt** method
 * If the account (-a, --account) is not specified, the application will use the first available account returned from the **OPTIONORDER.GetAccountAt** method
-* By default, it sends an order to the broker simulator which can be overridden via the (-e, --exchange) parameter
+* By default, it sends an order to the broker simulator server which can be overridden via the (-e, --exchange) parameter
 * The application can specify the information of the first leg via --type1, --side1, --position1, --date1, and --strike1 parameters
 * The application can specify the information of the second leg via --type2, --side2, --position2, --date2, and --strike2 parameters
 
@@ -321,6 +323,7 @@ Order has been submitted properly
 The order can be verified from the Message Monitor.
 
 ![](complex2.png)
+
 
 ## Summary
 
