@@ -120,7 +120,7 @@ An instance of **OPTIONORDER** can be used to submit an order. First, the applic
 |Side|Side of an order (Buy or Sell)|Buy|
 |Exchange|Broker (or Exchange) Destination. The application can use "DEM1 DMA" for a broker simulator. **OPTIONORDER.GetExchangeAt** can be used to retrieve the broker/exchange destination name from the exchange list|DEM1 DMA|
 |PriceType|Order type of an order (Limit, Stop, Stop Limit, Market Close, Market, or Limit Close). **OPTIONORDER.GetPriceTypeAt** can be used to retrieve the options price type name from the price type list |Limit|
-|TIF|Time In Force for an order (Day). **OPTIONORDER.GetTIFAt** can be used to retrieve the TIF (time in force) from the TIF list |Day|
+|TIF|Time In Force for an order (Day). **OPTIONORDER.GetTIFAt** can be used to retrieve the TIF (time in force) from the TIF list. Valid values are:<ul><li>**Day**</li><li>**IOC** (Immediate-or-Cancel)</li><li>**FOK** (Fill-or-Kill)</li><li>**OPG** (For market-on-open (MOO) or limit-on-open (LOO) order)</li></ul> |Day|
 |Account|The account used for this order. **OPTIONORDER.GetAccountAt** can be used to get the account name from the account list|EQUITY-TR|
 |Ticket|The ticket associated in this order. The possible values are **Bypass**, **Direct**, **Stage**, **Autoticket**, and **Autocreate**. <ul><li>**Bypass** lets users trade without using tickets</li><li>**Direct** also lets users trade without using tickets</li><li>**Stage** lets a staged order created in REDI, which must be manually released in REDI before it goes to the broker</li><li>**Autoticket** trades the order attributing to the ticket, using FIFO methodology</li><li>**Autocreate** simultaneously creates a ticket and an order</li></ul>|Bypass|
 
