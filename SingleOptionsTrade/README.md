@@ -13,7 +13,7 @@ The complete project code is available for download at [SingleOptionsTrade](http
 
 * REDIPlus is installed
 * REDIPlus valid credentials are used to login
-* User has access to the REDI broker simulator route (for testing purposes)
+* A User has access to the REDI broker simulator route (for testing purposes)
 * Visual Studio 2017
 * REDIPlus API
 
@@ -38,7 +38,7 @@ Click on **OK** button to add REDIPlus API to the project.
 
 If **Redi 1.0 Type Library** doesn't appear on the list, click **Browser...** button to locate the **Redi.tlb** file. Typically, this file should be found in **%LOCALAPPDATA%\REDI Tech\Primary** folder.
 
-After adding the **Redi 1.0 Type Library**, expand the **References** in the solution explorer. The **RediLib** will be appeared in the list.
+After adding the **Redi 1.0 Type Library**, expand the **References** in the solution explorer. The **RediLib** will appear on the list.
 
 ![](References.png)
 
@@ -93,7 +93,7 @@ Next, it calls **GetStrikesCount** to get the count of options strike prices bas
 object objStrikeCount = null;
 objOrder.GetStrikesCount(ref objStrikeCount);
 ```
-Then, it calls **GetStrikeAt** for each index to get the options strike price from the strike price list.
+Then, it calls **GetStrikeAt** for each index to get the options' strike price from the strike price list.
 ```csharp
 for (int i = 0; i < (int)objStrikeCount; i++)
 {
@@ -124,7 +124,7 @@ An instance of **OPTIONORDER** can be used to submit an order. First, the applic
 |Account|The account used for this order. **OPTIONORDER.GetAccountAt** can be used to get the account name from the account list|EQUITY-TR|
 |Ticket|The ticket associated in this order. The possible values are **Bypass**, **Direct**, **Stage**, **Autoticket**, and **Autocreate**. <ul><li>**Bypass** lets users trade without using tickets</li><li>**Direct** also lets users trade without using tickets</li><li>**Stage** lets a staged order created in REDI, which must be manually released in REDI before it goes to the broker</li><li>**Autoticket** trades the order attributing to the ticket, using FIFO methodology</li><li>**Autocreate** simultaneously creates a ticket and an order</li></ul>|Bypass|
 
-For example, the below code is **Buy to Open** a contract for IBM Jul 27 '18 $185.00 Call at 10.50. Time in force is Day and the order type is Limit. The order will be sent to a broker simulator with bypass ticket.
+For example, the below code is **Buy to Open** a contract for IBM Jul 27 '18 $185.00 Call at 10.50. Time in force is Day and the order type is Limit. The order will be sent to a demo server with bypass ticket.
 
 ```csharp
 OPTIONORDER objOrder = new OPTIONORDER();
@@ -153,7 +153,7 @@ if (!status)
     Console.WriteLine($"{(string)ord_err}");
 }
 ```
-This method returns **True** if order submission was successful. Otherwise it will return **False**. If it returns **False**, the failure reason will be populated in the reference variable passed as a string argument. 
+This method returns **True** if order submission was successful. Otherwise, it will return **False**. If it returns **False**, the failure reason will be populated in the reference variable passed as a string argument. 
 
 ## Example
 The simple application called **SingleOptionsTrade** is developed to demonstrate how to send a single options trade.
@@ -202,9 +202,9 @@ The symbol (-s, --symbol) is a required argument. However, price (-l, --limitpri
 
 **2. Get the Expiration Date**
 
-If the date (-d, --date) is not specified, the application will use the first available expiration date. It uses a function called **GetExpirationDate** which accepts an option symbol and returns the first expiration date for that option. If there is no expiration data for that option, it will return null.
+If the date (-d, --date) is not specified, the application will use the first available expiration date. It uses a function called **GetExpirationDate** which accepts an option symbol and returns the first expiration date for that option. If there is no expiration date for that option, it will return null.
 
-The function calls **GetExpirationDatesCount** to get the count of option expiration dates based on the order object and then calls **GetExpirationDateAt** with the first index (0) to get and return the first options expiration date in REDI format from the expiration date list.
+The function calls **GetExpirationDatesCount** to get the count of options' expiration dates based on the order object and then calls **GetExpirationDateAt** with the first index (0) to get and return the first options expiration date in REDI format from the expiration date list.
 
 
 ```csharp
@@ -259,7 +259,7 @@ private string GetStrikePrice(string symbol, string type, string expirationDate)
 
 If the account (-a, --account) is not specified, the application will use the first available account. It uses a function called **GetAccount** which returns the first available account. If there is no available account, it will return null.
 
-The function calls **GetAccountCount** to get the count of account based on the order object, and then calls **GetAccountAt** with the first index (0) to get and return the first account from the account list.
+The function calls **GetAccountCount** to get the count of account based on the order object and then calls **GetAccountAt** with the first index (0) to get and return the first account from the account list.
 
 ```csharp
 private string GetAccount()
