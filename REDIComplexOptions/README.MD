@@ -25,7 +25,7 @@ File->New->Project-> Visual C# -> Console App (.NET Framework)
 
 **2. Add the Redi 1.0 Type library**
 
-REDIPlus API is a COM library. To use it, we need to create a reference to this library. In the solution explorer, right click on **References** and select **Add Reference...** . 
+REDIPlus API is a COM library. To use it, we need to create a reference to this library. In the solution explorer, right click on **References** and select **Add Reference...**. 
 
 On the left menu, select **COM** and then check on **Redi 1.0 Type Library**. 
 
@@ -33,7 +33,7 @@ On the left menu, select **COM** and then check on **Redi 1.0 Type Library**.
 
 Click on **OK** button to add REDIPlus API to the project.
 
-If **Redi 1.0 Type Library** doesn't appear on the list, click **Browser...** button to locate the **Redi.tlb** file. Typically, this file should be found in **%LOCALAPPDATA%\REDI Tech\Primary** folder.
+If **Redi 1.0 Type Library** doesn't appear on the list, click **Browse...** button to locate the **Redi.tlb** file. Typically, this file should be found in **%LOCALAPPDATA%\REDI Tech\Primary** folder.
 
 After adding the **Redi 1.0 Type Library**, expand the **References** in the solution explorer. The **RediLib** will appear on the list.
 
