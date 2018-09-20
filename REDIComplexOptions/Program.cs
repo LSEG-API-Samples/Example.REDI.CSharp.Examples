@@ -53,7 +53,7 @@ namespace REDI.Csharp.Examples.VerticalOptionsTrade
             }
 
             //Verify if the value of Side of the second leg is equal to Buy or Sell. Otherwise, the application will exit
-            if (!sideList.Contains(options.Side1))
+            if (!sideList.Contains(options.Side2))
             {
                 ret = false;
                 Console.WriteLine("Invalid Value ({0}):\n\t --side2         (Default: Sell) Side of the first leg (Buy or Sell)", options.Side2);
