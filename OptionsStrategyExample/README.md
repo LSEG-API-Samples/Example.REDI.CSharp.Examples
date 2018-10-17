@@ -75,6 +75,10 @@ The valid parameters of the example are:
 ``` 
 By default, the order will be sent to a broker simulator server. If the account (-a, --account) is not specified, the application will use the first available account returned from the OPTIONORDER.GetAccountAt method. 
 
+The complete project code is available for download at [OptionsStrategyExample](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/tree/master/OptionsStrategyExample).
+
+For the detailed steps for sending a complex options order, please refer to the [Trading Complex Options in C#](https://developers.thomsonreuters.com/transactions/redi-api/learning?content=50084&type=learning_material_item) tutorial.
+
 ## Buy-Write ##
 Buy-write is an options trading strategy in which the investor is buying shares and simultaneously selling call options against those shares to generate income from option premiums. It can limit the loss because the options position is covered by the underlying stocks.
 
