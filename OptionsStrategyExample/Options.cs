@@ -3,7 +3,7 @@ namespace REDI.Csharp.Examples.ComplexOptionsTrade
 {
     class Options
     {
-        [Option("strategy", Required = true, HelpText = "The strategy for the spread option (Vertical, Ratio, Butterfly, or Buy-Write")]
+        [Option("strategy", Required = true, HelpText = "The strategy for the spread option (Buy-Write, Vertical, Ratio, or Butterfly)")]
         public string Strategy { get; set; }
         [Option('s', "symbol", Required = true, HelpText = "The symbol of an option")]
 
