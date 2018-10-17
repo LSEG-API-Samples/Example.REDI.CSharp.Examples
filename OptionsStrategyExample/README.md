@@ -175,7 +175,7 @@ object ord_err = null;
 bool status;
 status = objOrder.Submit(ref ord_err);
 ```
-The above code buys IBM Nov '18 120 Call and sells IBM Nov '18 130 Call. The spread entry price is $5.5. The order will be sent to a broker simulator server.
+The above code buys IBM Nov '18 120 Call on the first leg and sells IBM Nov '18 130 Call on the second. The spread entry price is $5.5. The order will be sent to a broker simulator server.
 
 You can also use the following parameters with the example to send a vertical complex option order.
 
@@ -241,7 +241,7 @@ bool status;
 status = objOrder.Submit(ref ord_err);
 ```
 
-The above code buys one IBM Nov '18 120 Call contract and sells two IBM Dec '18 130 Call contracts with the market order price type. The order will be sent to a broker simulator server.
+The above code buys one IBM Nov '18 120 Call contract on the first leg and sells two IBM Dec '18 130 Call contracts on the second with the market order price type. The order will be sent to a broker simulator server.
 
 You can also use the following parameters with the example to send a vertical complex option order.
 
@@ -315,9 +315,9 @@ status = objOrder.Submit(ref ord_err);
 ```
 
 The above code uses the butterfly strategy to buy and sell the following IBM option contracts with the market order price type.
-* Buy one IBM Dec '18 110 Call contract 
-* Sell two IBM Dec '18 120 Call contract
-* Buy one IBM Dec '18 130 Call contract
+* Buy one IBM Dec '18 110 Call contract on the first leg 
+* Sell two IBM Dec '18 120 Call contract on the second leg
+* Buy one IBM Dec '18 130 Call contract on the third leg
 
 The order will be sent to a broker simulator server.
 
