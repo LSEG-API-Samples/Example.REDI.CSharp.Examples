@@ -357,3 +357,4 @@ The complex options trade can be sent via REDIPlus UI or REDIPlus API. With REDI
 * [Butterfly](https://www.investopedia.com/terms/b/butterflyspread.asp)
 * [REDI API SPECIFICATION](https://developers.thomsonreuters.com/transactions/redi-api/docs?content=25822&type=documentation_item)
 * [Trading Complex Options in C#](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/tree/master/REDIComplexOptions)
+* [OptionsStrategyExample](https://github.com/TR-API-Samples/Example.REDI.CSharp.Examples/tree/master/OptionsStrategyExample)
