@@ -9,8 +9,8 @@ With REDIPlus’s powerful options capabilities, users can easily trade single a
 The valid parameters of the example are:
 
 ```
-  --strategy          Required. The strategy for the spread option (Vertical, Ratio,
-                      Butterfly, or Buy-Write
+  --strategy          Required. The strategy for the spread option (Buy-Write, Vertical, Ratio, or
+                      Butterfly)
 
   -s, --symbol        Required. The symbol of an option
 
