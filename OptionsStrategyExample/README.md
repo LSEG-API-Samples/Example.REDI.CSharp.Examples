@@ -112,7 +112,7 @@ object ord_err = null;
 bool status;
 status = objOrder.Submit(ref ord_err);
 ```
-The above code buys the 100 shares of IBM and sells one Nov '18 110 Call with the market order price type. The order will be sent to a broker simulator server.
+The above code sells one Nov '18 110 Call on the first leg and buys the 100 shares of IBM on the second leg with the market order price type. The order will be sent to a broker simulator server.
 
 You can also use the following parameters with the example to send a buy-write complex option order.
 
