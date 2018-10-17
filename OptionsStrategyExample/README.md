@@ -316,7 +316,7 @@ status = objOrder.Submit(ref ord_err);
 
 The above code uses the butterfly strategy to buy and sell the following IBM option contracts with the market order price type.
 * Buy one IBM Dec '18 110 Call contract on the first leg 
-* Sell two IBM Dec '18 120 Call contract on the second leg
+* Sell two IBM Dec '18 120 Call contracts on the second leg
 * Buy one IBM Dec '18 130 Call contract on the third leg
 
 The order will be sent to a broker simulator server.
