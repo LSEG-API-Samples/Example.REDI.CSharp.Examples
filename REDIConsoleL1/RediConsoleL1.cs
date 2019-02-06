@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Threading;
 using RediLib;
 
 
@@ -34,13 +31,13 @@ namespace RediConsoleL1
         }
 
         Dictionary<string, QuoteCache> QuotesDict = new Dictionary<string, QuoteCache>();
-        List<string> myRICList = new List<string>(new string[] { "GOOG", "BA" ,"MSFT"});
+        List<string> myInstrumentList = new List<string>(new string[] { "GOOG", "BA", "MSFT" ,"AAPL  190208C00170000" });
 
         public bool Init()
         {
             try
             {    
-                foreach (string i in myRICList)
+                foreach (string i in myInstrumentList)
                 {
                     if (!QuotesDict.ContainsKey(i))
                     {

@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Input;
 using RediLib;
-using System.Collections.Specialized;
 
 namespace RediConsoleL1
 {
-    class QuoteCache //: INotifyPropertyChanged
+    // Auxiliary class that contains QuoteCache interaction per Symbol
+    class QuoteCache 
     {
         private string _symbol;
 
@@ -22,9 +16,6 @@ namespace RediConsoleL1
         }
         private readonly CacheControl quoteCache;
         private object err = null;
-
-
-        //public event PropertyChangedEventHandler PropertyChanged;
 
         public QuoteCache(CacheControl qc, string Symbol)
         {
@@ -42,6 +33,12 @@ namespace RediConsoleL1
 
         public void Subscribe()
         {
+            //string call_askPx = null;
+            //quoteCache.Submit("L1", "true", err);
+            //Get ask price for: Call IBM 2016 / 02 / 04 StrikePx $125.00
+            //quoteCache.GetOptionL1Value(Symbol, "CALL_AskPrice", call_askPx);
+           //Console.WriteLine("call_askPx=" + call_askPx);
+
             if (Symbol != null)
             {
                 err = null;
@@ -56,6 +53,10 @@ namespace RediConsoleL1
                     quoteCache.CacheEvent += quoteCacheHandler;
                     quoteCache.AddWatch(WatchType.L1, Symbol, null, ref err);
                     quoteCache.Submit("L1", "", ref err);
+                }
+                if (0 != (int)err)
+                {
+                    Console.WriteLine("On Submit err=" + err);
                 }
             }
 
@@ -96,6 +97,7 @@ namespace RediConsoleL1
             string Bid;
             string Ask;
             string Last;
+            string LastTradeSize;
             int errCode;
 
  
@@ -139,18 +141,10 @@ namespace RediConsoleL1
                             }
 
                             Last = GetCell(quoteCache, row, "Last", out errCode).ToString();
+                            LastTradeSize = GetCell(quoteCache, row, "LastTradeSize", out errCode).ToString();
 
-                            /* var quote = _qw.Quotes.FirstOrDefault(X => X.Symbol == Symbol);
-
-                             if (quote != null)
-                             {
-                                 quote.Bid = Bid;
-                                 quote.Ask = Ask;
-                                 quote.Last = Last;
-
-                             } */
                             Console.WriteLine("Symbol=" + Symbol + " Action=" + ((CacheControlActions)action).ToString()+ 
-                                " Bid="+Bid + " Ask="+Ask+" Last="+Last);
+                                " Bid="+Bid + " Ask="+Ask+" Last="+Last + " LastTradeSize=" + LastTradeSize);
 
 
                         }
@@ -158,7 +152,15 @@ namespace RediConsoleL1
                         {
                         }
                         break;
+                    default:
+                        Symbol = GetCell(quoteCache, row, "Symbol", out errCode).ToString().TrimStart();
+                        if (Symbol.Length == 0)
+                        {
+                            Symbol = GetCell(quoteCache, row, "DisplaySymbol", out errCode).ToString().TrimStart();
+                        }
 
+                        Console.WriteLine("Symbol=" + Symbol + " Action int=" + action);
+                        break;                        
                 }
             }
         }
