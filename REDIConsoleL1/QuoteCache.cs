@@ -33,12 +33,6 @@ namespace RediConsoleL1
 
         public void Subscribe()
         {
-            //string call_askPx = null;
-            //quoteCache.Submit("L1", "true", err);
-            //Get ask price for: Call IBM 2016 / 02 / 04 StrikePx $125.00
-            //quoteCache.GetOptionL1Value(Symbol, "CALL_AskPrice", call_askPx);
-           //Console.WriteLine("call_askPx=" + call_askPx);
-
             if (Symbol != null)
             {
                 err = null;
@@ -122,9 +116,6 @@ namespace RediConsoleL1
                                 Symbol = GetCell(quoteCache, row, "DisplaySymbol", out errCode).ToString().TrimStart();
                             }
 
- //                           Console.WriteLine("Symbol=" + Symbol + " Action=" + ((CacheControlActions)action).ToString()); // + " Row=" + row.ToString());
-
-
                             Bid = "";
                             Ask = "";
 
@@ -145,7 +136,6 @@ namespace RediConsoleL1
 
                             Console.WriteLine("Symbol=" + Symbol + " Action=" + ((CacheControlActions)action).ToString()+ 
                                 " Bid="+Bid + " Ask="+Ask+" Last="+Last + " LastTradeSize=" + LastTradeSize);
-
 
                         }
                         catch
