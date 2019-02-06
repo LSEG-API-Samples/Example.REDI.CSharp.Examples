@@ -88,10 +88,10 @@ namespace RediConsoleL1
         private void quoteCacheHandler(int action, int row)
         {
             string Symbol;
-            string Bid;
-            string Ask;
-            string Last;
-            string LastTradeSize;
+            string Bid = "";
+            string Ask = "";
+            string Last = "";
+            string LastTradeSize = "";
             int errCode;
 
  
@@ -108,17 +108,11 @@ namespace RediConsoleL1
                             if (action == (int)CacheControlActions.Snapshot)
                                 row = 0;
 
-
-
                             Symbol = GetCell(quoteCache, row, "Symbol", out errCode).ToString().TrimStart();
                             if (Symbol.Length == 0)
                             {
                                 Symbol = GetCell(quoteCache, row, "DisplaySymbol", out errCode).ToString().TrimStart();
                             }
-
-                            Bid = "";
-                            Ask = "";
-
 
                             if (Symbol.Contains(' '))
                             {
