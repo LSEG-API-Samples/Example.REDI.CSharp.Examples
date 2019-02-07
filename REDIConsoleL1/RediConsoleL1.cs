@@ -9,29 +9,9 @@ namespace RediConsoleL1
     {
 
         private RediLib.CacheControl quoteCacheControl;
-
-        
-        public enum CacheControlActions
-        {
-            Snapshot = 1,
-            Add = 4,
-            Update = 5,
-            Delete = 8
-        }
-
-        public enum WatchType
-        {
-            L1,
-            L2,
-            PANDL,
-            FIRM,
-            L1OPT,
-            TimesAndSales,
-            HistoricalTimesAndSales
-        }
-
+   
         Dictionary<string, QuoteCache> QuotesDict = new Dictionary<string, QuoteCache>();
-        List<string> myInstrumentList = new List<string>(new string[] { "GOOG", "BA", "MSFT" ,"AAPL  190208C00170000" });
+        List<string> myInstrumentList = new List<string>(new string[] { "GOOG", "MSFT" , "BA", "AAPL  190208C00170000" });
 
         public bool Init()
         {
@@ -66,8 +46,10 @@ namespace RediConsoleL1
             if (myL1.Init())
             {
                 Console.WriteLine("...Init completed...");
-
-               while (true)
+                System.Threading.Thread.Sleep(5000);
+                QuoteCache qc1 = myL1.QuotesDict[myL1.myInstrumentList[1]];
+                qc1.Unsubscribe();
+                while (true)
                 {  //
                 }
             }

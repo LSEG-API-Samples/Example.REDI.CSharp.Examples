@@ -56,6 +56,32 @@ namespace RediConsoleL1
 
         }
 
+        public void Unsubscribe()
+        {
+            if (Symbol != null)
+            {
+                err = null;
+                if (Symbol.Contains(' '))
+                {
+                   quoteCache.DeleteWatch(WatchType.L1OPT, Symbol, null, ref err);
+                   quoteCache.Submit("L1", Symbol, ref err);
+                }
+                else
+                {     
+                    quoteCache.DeleteWatch(WatchType.L1, Symbol, null, ref err);
+                    quoteCache.Submit("L1", "", ref err);
+                }
+                if (0 != (int)err)
+                {
+                    Console.WriteLine("On Submit err=" + err);
+                } else
+                {
+                    Console.WriteLine("<<<Deleted>>> " + Symbol);
+                }
+            }
+
+        }
+
 
 
 
