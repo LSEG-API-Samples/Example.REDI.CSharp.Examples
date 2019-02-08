@@ -11,6 +11,7 @@ namespace RediConsoleL1
         private RediLib.CacheControl quoteCacheControl;
    
         Dictionary<string, QuoteCache> QuotesDict = new Dictionary<string, QuoteCache>();
+        // as options are soon outdated, if required, please replace the below option instrument with a valid option instrument
         List<string> myInstrumentList = new List<string>(new string[] { "GOOG", "MSFT" , "BA", "AAPL  190208C00170000" });
 
         public bool Init()
@@ -46,9 +47,12 @@ namespace RediConsoleL1
             if (myL1.Init())
             {
                 Console.WriteLine("...Init completed...");
+                myL1.QuotesDict[myL1.myInstrumentList[1]].Submit();
                 System.Threading.Thread.Sleep(5000);
                 QuoteCache qc1 = myL1.QuotesDict[myL1.myInstrumentList[1]];
                 qc1.Unsubscribe();
+                qc1.Submit();
+                Console.WriteLine("...Deleted... " + myL1.myInstrumentList[1]);
                 while (true)
                 {  //
                 }

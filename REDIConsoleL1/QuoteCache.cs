@@ -4,7 +4,7 @@ using RediLib;
 
 namespace RediConsoleL1
 {
-    // Auxiliary class that contains QuoteCache interaction per Symbol
+    // Auxiliary class that implements QuoteCache interaction per Symbol
     class QuoteCache 
     {
         private string _symbol;
@@ -31,62 +31,6 @@ namespace RediConsoleL1
             Delete = 8
         }
 
-        public void Subscribe()
-        {
-            if (Symbol != null)
-            {
-                err = null;
-                if (Symbol.Contains(' '))
-                {
-                    quoteCache.CacheEvent += quoteCacheHandler;
-                    quoteCache.AddWatch(WatchType.L1OPT, Symbol, null, ref err);
-                    quoteCache.Submit("L1", Symbol, ref err);
-                }
-                else
-                {
-                    quoteCache.CacheEvent += quoteCacheHandler;
-                    quoteCache.AddWatch(WatchType.L1, Symbol, null, ref err);
-                    quoteCache.Submit("L1", "", ref err);
-                }
-                if (0 != (int)err)
-                {
-                    Console.WriteLine("On Submit err=" + err);
-                }
-            }
-
-        }
-
-        public void Unsubscribe()
-        {
-            if (Symbol != null)
-            {
-                err = null;
-                if (Symbol.Contains(' '))
-                {
-                   quoteCache.DeleteWatch(WatchType.L1OPT, Symbol, null, ref err);
-                   quoteCache.Submit("L1", Symbol, ref err);
-                }
-                else
-                {     
-                    quoteCache.DeleteWatch(WatchType.L1, Symbol, null, ref err);
-                    quoteCache.Submit("L1", "", ref err);
-                }
-                if (0 != (int)err)
-                {
-                    Console.WriteLine("On Submit err=" + err);
-                } else
-                {
-                    Console.WriteLine("<<<Deleted>>> " + Symbol);
-                }
-            }
-
-        }
-
-
-
-
-
-
         public enum WatchType
         {
             L1,
@@ -97,6 +41,53 @@ namespace RediConsoleL1
             TimesAndSales,
             HistoricalTimesAndSales
         }
+
+        public void Subscribe()
+        {
+            if (Symbol != null)
+            {
+                err = null;
+                quoteCache.CacheEvent += quoteCacheHandler;
+                if (Symbol.Contains(' ')) //is an option                 
+                    quoteCache.AddWatch(WatchType.L1OPT, Symbol, null, ref err);
+                else // is an equity
+                    quoteCache.AddWatch(WatchType.L1, Symbol, null, ref err);
+                if ((null != err) && ((int)err != 0))
+                    Console.WriteLine("On AddWatch err=" + err);
+            }
+
+        }
+
+        public void Submit()
+        {
+            err = null;
+            quoteCache.Submit("L1", "", ref err);
+            if ((null != err) && ((int)err != 0))
+            {
+                Console.WriteLine("On Submit err=" + err);
+            }
+        }
+
+        public void Unsubscribe()
+        {
+            if (Symbol != null)
+            {
+                err = null;
+                if (Symbol.Contains(' '))
+                   quoteCache.DeleteWatch(WatchType.L1OPT, Symbol, null, ref err);
+                else
+                   quoteCache.DeleteWatch(WatchType.L1, Symbol, null, ref err);
+                if ((null != err) && ((int)err != 0))
+                    Console.WriteLine("On DeleteWatch err=" + err);
+            }
+
+        }
+
+
+
+
+
+
 
         public static object GetCell(CacheControl cc, int row, string columnName, out int errorCode)
         {
@@ -118,6 +109,7 @@ namespace RediConsoleL1
             string Ask = "";
             string Last = "";
             string LastTradeSize = "";
+            string Volume = "";
             int errCode;
 
  
@@ -153,9 +145,12 @@ namespace RediConsoleL1
 
                             Last = GetCell(quoteCache, row, "Last", out errCode).ToString();
                             LastTradeSize = GetCell(quoteCache, row, "LastTradeSize", out errCode).ToString();
+                            Volume = GetCell(quoteCache, row, "Volume", out errCode).ToString();
 
-                            Console.WriteLine("Symbol=" + Symbol + " Action=" + ((CacheControlActions)action).ToString()+ 
-                                " Bid="+Bid + " Ask="+Ask+" Last="+Last + " LastTradeSize=" + LastTradeSize);
+                            if(Symbol.Trim().Length != 0)
+                                Console.WriteLine("Symbol=" + Symbol + " Action=" + ((CacheControlActions)action).ToString()+ 
+                                    " Bid="+Bid + " Ask="+Ask+" Last="+Last + " LastTradeSize=" + LastTradeSize + 
+                                    " Volume=" + Volume);
 
                         }
                         catch
