@@ -15,12 +15,14 @@ namespace RediConsoleL1
             set { this._symbol =  value; }
         }
         private readonly CacheControl quoteCache;
+        private readonly Boolean _isOption;
         private object err = null;
 
-        public QuoteCache(CacheControl qc, string Symbol)
+        public QuoteCache(CacheControl qc, string Symbol, Boolean isOption)
         {
             quoteCache = qc;
             _symbol = Symbol;
+            _isOption = isOption;
         }
 
         public enum CacheControlActions
@@ -48,7 +50,7 @@ namespace RediConsoleL1
             {
                 err = null;
                 quoteCache.CacheEvent += quoteCacheHandler;
-                if (Symbol.Contains(' ')) //is an option                 
+                if (_isOption)  //is an option                 
                     quoteCache.AddWatch(WatchType.L1OPT, Symbol, null, ref err);
                 else // is an equity
                     quoteCache.AddWatch(WatchType.L1, Symbol, null, ref err);
@@ -73,7 +75,7 @@ namespace RediConsoleL1
             if (Symbol != null)
             {
                 err = null;
-                if (Symbol.Contains(' '))
+                if (_isOption)
                    quoteCache.DeleteWatch(WatchType.L1OPT, Symbol, null, ref err);
                 else
                    quoteCache.DeleteWatch(WatchType.L1, Symbol, null, ref err);
