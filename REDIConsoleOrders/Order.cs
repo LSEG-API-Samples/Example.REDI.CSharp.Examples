@@ -125,10 +125,26 @@ namespace RediConsoleOrders
 
         }
 
-   
+        private string _branchCode;
+        public string BranchCode
+        {
+            get { return _branchCode; }
+            set { this._branchCode = value; }
+
+        }
+
+        private string _branchSeq;
+        public string BranchSeq
+        {
+            get { return _branchSeq; }
+            set { this._branchSeq = value; }
+
+        }
+
+
         public override String ToString()
         {
-            return "Ref="+OrderRefKey+"|Symbol=" + Symbol + "|Side=" + Side + "|Quantity=" + Quantity + "|ExecQuantity=" + ExecQuantity + "|PriceDesc=" + PriceDesc 
+            return "Ref="+OrderRefKey + "BranchCode=" + BranchCode + "BranchSeq=" + BranchSeq + "|Symbol=" + Symbol + "|Side=" + Side + "|Quantity=" + Quantity + "|ExecQuantity=" + ExecQuantity + "|PriceDesc=" + PriceDesc 
                 + "|PctCmp=" + PctCmp + "|Lvs=" + Lvs + "|ExecPr=" + ExecPr + "|Account=" + Account + "|Status=" + Status;
         }
         

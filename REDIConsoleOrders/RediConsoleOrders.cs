@@ -47,7 +47,7 @@ namespace RediConsoleOrders
         {
             // this message initializes interaction with Order cache
             // that should include the initial snapshot of the orders and conseqcutive deltas  
-            object result = orderCache.Submit("Message", ""/*"(msgtype == 10)"*/, ref exec_err);
+            object result = orderCache.Submit("Message", /*""*/"(msgtype == 10)", ref exec_err);
         }
 
         static void Main(string[] args)
@@ -56,8 +56,7 @@ namespace RediConsoleOrders
             Console.WriteLine("Start of RediConsoleOrders");
             DisplayRediOrders myOrders = new DisplayRediOrders();
             if (myOrders.init()) {  
-                Console.WriteLine("Init completed");
- //  
+                Console.WriteLine("Init completed");  
                 while (true)
                 {
                 }
@@ -101,6 +100,9 @@ namespace RediConsoleOrders
             string Lvs;
             string Status;
             string OrderRefKey;
+            String BranchCode;
+            String BranchSeq;
+            string Exchange;
 
             int errCode;
 
@@ -140,6 +142,9 @@ namespace RediConsoleOrders
                             Lvs = GetCell(orderCache, row, "Leaves", out errCode).ToString().TrimStart();
                             Status = GetCell(orderCache, row, "Status", out errCode).ToString().TrimStart();
                             OrderRefKey = GetCell(orderCache, row, "OrderRefKey", out errCode).ToString().TrimStart();
+                            BranchCode = GetCell(orderCache, row, "BranchCode", out errCode).ToString().TrimStart();
+                            BranchSeq = GetCell(orderCache, row, "BranchSeq", out errCode).ToString().TrimStart();
+
 
                             var Ord = new Order();
                             Time = Time.Remove(0, 9);
@@ -156,6 +161,8 @@ namespace RediConsoleOrders
                             Ord.Lvs = Lvs;
                             Ord.Status = Status;
                             Ord.OrderRefKey = OrderRefKey;
+                            Ord.BranchCode = BranchCode;
+                            Ord.BranchSeq = BranchSeq;
 
                             Console.WriteLine("Add to Orders: "+ Ord.ToString());
                         }
@@ -193,6 +200,8 @@ namespace RediConsoleOrders
                             Lvs = GetCell(orderCache, row, "Leaves", out errCode).ToString().TrimStart();
                             Status = GetCell(orderCache, row, "Status", out errCode).ToString().TrimStart();
                             OrderRefKey = GetCell(orderCache, row, "OrderRefKey", out errCode).ToString().TrimStart();
+                            BranchCode = GetCell(orderCache, row, "BranchCode", out errCode).ToString().TrimStart();
+                            BranchSeq = GetCell(orderCache, row, "BranchSeq", out errCode).ToString().TrimStart();
 
                             var Ord = new Order();
 
@@ -210,8 +219,11 @@ namespace RediConsoleOrders
                             Ord.PctCmp = PctCmp;
                             Ord.Lvs = Lvs;
                             Ord.Status = Status;
-                            Ord.OrderRefKey = OrderRefKey;                                                                
- //                                                       } 
+                            Ord.OrderRefKey = OrderRefKey;
+                            Ord.BranchCode = BranchCode;
+                            Ord.BranchSeq = BranchSeq;
+                            
+                            //                                                       } 
                             Console.WriteLine("Update to Order: " + Ord);
                         }
                         catch
@@ -251,8 +263,11 @@ namespace RediConsoleOrders
                                 Lvs = GetCell(orderCache, i, "Leaves", out errCode).ToString().TrimStart();
                                 Status = GetCell(orderCache, i, "Status", out errCode).ToString().TrimStart();
                                 OrderRefKey = GetCell(orderCache, i, "OrderRefKey", out errCode).ToString().TrimStart();
+                                BranchCode = GetCell(orderCache, i, "BranchCode", out errCode).ToString().TrimStart();
+                                BranchSeq = GetCell(orderCache, i, "BranchSeq", out errCode).ToString().TrimStart();
+                                Exchange = GetCell(orderCache, i, "Exchange", out errCode).ToString().TrimStart();
 
-  //                              Console.WriteLine("1 - Time = " + Time + /*";BrSeq = " + BrSeq +*/ ";row = " + i);
+                                //                              Console.WriteLine("1 - Time = " + Time + /*";BrSeq = " + BrSeq +*/ ";row = " + i);
                                 var Ord = new Order();
 
                                 Time = Time.Remove(0, 9);
@@ -269,10 +284,31 @@ namespace RediConsoleOrders
                                 Ord.Lvs = Lvs;
                                 Ord.Status = Status;
                                 Ord.OrderRefKey = OrderRefKey;
+                                Ord.BranchCode = BranchCode;
+                                Ord.BranchSeq = BranchSeq;
 
                                Console.WriteLine("<Orders row=" + i + "|time="+Time+">\n" + Ord.ToString());
+       /*                         RediLib.ORDER newOrder = new RediLib.ORDER();
+                                newOrder.SetOrderKey("r151681", OrderRefKey);
+
+                                object counter = null;
+                                newOrder.GetMBFieldCount(ref counter);
+                                Console.WriteLine("Counter=" + counter);
+                                Console.WriteLine("Exchange=" + newOrder.Exchange+ "Symbol="+ newOrder.Symbol);
+
+                                if (newOrder.GetMBFieldCount(ref counter) == null)
+                                {
+                                    for (int index = 0; index < ((int)counter); index++)
+                                    {
+                                        object name = null; object value = null; object type = null; if (newOrder.GetMBFieldX(index, ref name, ref value, ref type) == null)
+                                        {
+                                            Console.WriteLine("Name=" + name + " value=" + value);
+                                        }
+                                    }
+                                } */
                             }
                             Console.WriteLine("End of orders");
+
                         }
                         catch(Exception e)
                         {
