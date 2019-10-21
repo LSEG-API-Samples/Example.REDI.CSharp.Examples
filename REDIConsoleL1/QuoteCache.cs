@@ -112,6 +112,7 @@ namespace RediConsoleL1
             string Last = "";
             string LastTradeSize = "";
             string Volume = "";
+            string ISIN = "";
             int errCode;
 
  
@@ -134,7 +135,7 @@ namespace RediConsoleL1
                                 Symbol = GetCell(quoteCache, row, "DisplaySymbol", out errCode).ToString().TrimStart();
                             }
 
-                            if (Symbol.Contains(' '))
+                            if(_isOption)
                             {
                                 Bid = GetCell(quoteCache, row, "BidPrice", out errCode).ToString();
                                 Ask = GetCell(quoteCache, row, "AskPrice", out errCode).ToString();
@@ -143,16 +144,18 @@ namespace RediConsoleL1
                             {
                                 Bid = GetCell(quoteCache, row, "Bid", out errCode).ToString();
                                 Ask = GetCell(quoteCache, row, "Ask", out errCode).ToString();
+                                ISIN = GetCell(quoteCache, row, "ISIN", out errCode).ToString(); //options do not have an ISIN
                             }
 
                             Last = GetCell(quoteCache, row, "Last", out errCode).ToString();
                             LastTradeSize = GetCell(quoteCache, row, "LastTradeSize", out errCode).ToString();
                             Volume = GetCell(quoteCache, row, "Volume", out errCode).ToString();
+                            
 
-                            if(Symbol.Trim().Length != 0)
+                            if (Symbol.Trim().Length != 0)
                                 Console.WriteLine("Symbol=" + Symbol + " Action=" + ((CacheControlActions)action).ToString()+ 
                                     " Bid="+Bid + " Ask="+Ask+" Last="+Last + " LastTradeSize=" + LastTradeSize + 
-                                    " Volume=" + Volume);
+                                    " Volume=" + Volume + " ISIN=" + ISIN);
 
                         }
                         catch

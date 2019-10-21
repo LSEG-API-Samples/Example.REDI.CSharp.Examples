@@ -12,8 +12,9 @@ namespace RediConsoleL1
    
         Dictionary<string, QuoteCache> QuotesDict = new Dictionary<string, QuoteCache>();
         // as options are soon outdated, if required, please replace the below option instrument with a valid option instrument
-        List<string> myInstrumentList = new List<string>(new string[] { "GOOG", "MSFT", "BA", "SPX   211217C03800000" ,"AAPL US EQUITY"});
-        List<string> myOptionsList = new List<string>(new string[] { "SPX   211217C03800000" });  //these are options included in myInstrumentList
+        List<string> myInstrumentList = new List<string>(new string[] { "GOOG", "MSFT", "BA", "SPX   211217C03800000" ,"AAPL US EQUITY", "EC4W3020J9" });
+//        List<string> myInstrumentList = new List<string>(new string[] { "SPX   211217C03800000", "AAPL US EQUITY", "EC3W3010I9" });
+        List<string> myOptionsList = new List<string>(new string[] { "SPX   211217C03800000" , "EC4W3020J9" });  //these are options included in myInstrumentList
         public bool Init()
         {
             try
