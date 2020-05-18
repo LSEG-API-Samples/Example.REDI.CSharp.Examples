@@ -46,8 +46,9 @@ namespace RediConsoleOrders
         public void orderSubmit()
         {
             // this message initializes interaction with Order cache
-            // that should include the initial snapshot of the orders and conseqcutive deltas  
-            object result = orderCache.Submit("Message", /*""*/"(msgtype == 10)", ref exec_err);
+            // that should include the initial snapshot of the orders and consecutive deltas  
+          object result = orderCache.Submit("Message", /*""*/"(msgtype == 10)", ref exec_err);
+            // object result = orderCache.Submit("Message", /*""*/"(msgtype == 14)", ref exec_err);
         }
 
         static void Main(string[] args)
@@ -103,13 +104,14 @@ namespace RediConsoleOrders
             String BranchCode;
             String BranchSeq;
             string Exchange;
+            string Customs = "";
 
             int errCode;
 
 //            Console.WriteLine("action: " + action.ToString() + "; row: " + row.ToString());
 
             if (row >= 0)
-            {
+            {           
                 //Console.WriteLine("action: " + action.ToString());
                  switch (action)
                 {
@@ -144,6 +146,13 @@ namespace RediConsoleOrders
                             OrderRefKey = GetCell(orderCache, row, "OrderRefKey", out errCode).ToString().TrimStart();
                             BranchCode = GetCell(orderCache, row, "BranchCode", out errCode).ToString().TrimStart();
                             BranchSeq = GetCell(orderCache, row, "BranchSeq", out errCode).ToString().TrimStart();
+                            Customs = "";
+                            for (int k = 0; k < 15; k++)
+                            {
+                                String cus = GetCell(orderCache, row, "Custom" + k, out errCode).ToString().TrimStart();
+                                if (!cus.Equals(""))
+                                    Customs += ("<" + k + "=" + cus + ">");
+                            }
 
 
                             var Ord = new Order();
@@ -163,6 +172,7 @@ namespace RediConsoleOrders
                             Ord.OrderRefKey = OrderRefKey;
                             Ord.BranchCode = BranchCode;
                             Ord.BranchSeq = BranchSeq;
+                            Ord.Customs = Customs;
 
                             Console.WriteLine("Add to Orders: "+ Ord.ToString());
                         }
@@ -174,8 +184,8 @@ namespace RediConsoleOrders
                     case (int)CacheControlActions.Update:  // modification or cancellation
                         try
                         {
- //                           Console.WriteLine("Update");
-
+                            //                           Console.WriteLine("Update");
+                            
                             Time = GetCell(orderCache, row, "Time", out errCode).ToString().TrimStart();
                             Account = GetCell(orderCache, row, "Account", out errCode).ToString().TrimStart();
                             Side = GetCell(orderCache, row, "Side", out errCode).ToString().TrimStart();
@@ -202,6 +212,13 @@ namespace RediConsoleOrders
                             OrderRefKey = GetCell(orderCache, row, "OrderRefKey", out errCode).ToString().TrimStart();
                             BranchCode = GetCell(orderCache, row, "BranchCode", out errCode).ToString().TrimStart();
                             BranchSeq = GetCell(orderCache, row, "BranchSeq", out errCode).ToString().TrimStart();
+                            Customs = "";
+                            for (int k = 0; k < 15; k++)
+                            {
+                                String cus = GetCell(orderCache, row, "Custom" + k, out errCode).ToString().TrimStart();
+                                if (!cus.Equals(""))
+                                    Customs += ("<" + k + "=" + cus + ">");
+                            }
 
                             var Ord = new Order();
 
@@ -222,9 +239,16 @@ namespace RediConsoleOrders
                             Ord.OrderRefKey = OrderRefKey;
                             Ord.BranchCode = BranchCode;
                             Ord.BranchSeq = BranchSeq;
+                            Ord.Customs = Customs;
                             
                             //                                                       } 
                             Console.WriteLine("Update to Order: " + Ord);
+
+                            /*                       if (long.Parse(Ord.ExecQuantity) > 0)
+                                                   {
+                                                       Console.WriteLine("Ord.ExecQuantity greater then 0");
+                                                   } */
+
                         }
                         catch
                         {
@@ -238,6 +262,7 @@ namespace RediConsoleOrders
                         try
                         {
                             Console.WriteLine("Snapshot of orders:");
+                            
                             for (int i = 0; i < row; i++)
                             {
                                 Time = GetCell(orderCache, i, "Time", out errCode).ToString().TrimStart();
@@ -248,6 +273,13 @@ namespace RediConsoleOrders
                                 Symbol = GetCell(orderCache, i, "DisplaySymbol", out errCode).ToString().TrimStart();
                                 PriceDesc = GetCell(orderCache, i, "PriceDesc", out errCode).ToString().TrimStart();
                                 ExecPrice = GetCell(orderCache, i, "AvgExecPrice", out errCode).ToString().TrimStart();
+                                Customs = "";
+                                for (int k = 0; k < 15; k++)
+                                {
+                                    String cus = GetCell(orderCache, i, "Custom" + k, out errCode).ToString().TrimStart();
+                                    if (!cus.Equals(""))
+                                        Customs += ( "<"+ k + "=" + cus+">");
+                                }
                                 if (((null == ExecQuantity) || (null == Quantity)) ||
                                    ((ExecQuantity.Equals("")) || (Quantity.Equals(""))))
                                     continue; //do not display orders with quantities not populated, wait for the valid order
@@ -267,7 +299,6 @@ namespace RediConsoleOrders
                                 BranchSeq = GetCell(orderCache, i, "BranchSeq", out errCode).ToString().TrimStart();
                                 Exchange = GetCell(orderCache, i, "Exchange", out errCode).ToString().TrimStart();
 
-                                //                              Console.WriteLine("1 - Time = " + Time + /*";BrSeq = " + BrSeq +*/ ";row = " + i);
                                 var Ord = new Order();
 
                                 Time = Time.Remove(0, 9);
@@ -286,26 +317,29 @@ namespace RediConsoleOrders
                                 Ord.OrderRefKey = OrderRefKey;
                                 Ord.BranchCode = BranchCode;
                                 Ord.BranchSeq = BranchSeq;
+                                Ord.Exchange = Exchange;
+                                Ord.Customs = Customs;
 
-                               Console.WriteLine("<Orders row=" + i + "|time="+Time+">\n" + Ord.ToString());
-       /*                         RediLib.ORDER newOrder = new RediLib.ORDER();
-                                newOrder.SetOrderKey("r151681", OrderRefKey);
+                                Console.WriteLine("<Orders row=" + i + "|time="+Time+">\n" + Ord.ToString());
 
-                                object counter = null;
-                                newOrder.GetMBFieldCount(ref counter);
-                                Console.WriteLine("Counter=" + counter);
-                                Console.WriteLine("Exchange=" + newOrder.Exchange+ "Symbol="+ newOrder.Symbol);
+                                /*                         RediLib.ORDER newOrder = new RediLib.ORDER();
+                                                         newOrder.SetOrderKey("r151681", OrderRefKey);
 
-                                if (newOrder.GetMBFieldCount(ref counter) == null)
-                                {
-                                    for (int index = 0; index < ((int)counter); index++)
-                                    {
-                                        object name = null; object value = null; object type = null; if (newOrder.GetMBFieldX(index, ref name, ref value, ref type) == null)
-                                        {
-                                            Console.WriteLine("Name=" + name + " value=" + value);
-                                        }
-                                    }
-                                } */
+                                                         object counter = null;
+                                                         newOrder.GetMBFieldCount(ref counter);
+                                                         Console.WriteLine("Counter=" + counter);
+                                                         Console.WriteLine("Exchange=" + newOrder.Exchange+ "Symbol="+ newOrder.Symbol);
+
+                                                         if (newOrder.GetMBFieldCount(ref counter) == null)
+                                                         {
+                                                             for (int index = 0; index < ((int)counter); index++)
+                                                             {
+                                                                 object name = null; object value = null; object type = null; if (newOrder.GetMBFieldX(index, ref name, ref value, ref type) == null)
+                                                                 {
+                                                                     Console.WriteLine("Name=" + name + " value=" + value);
+                                                                 }
+                                                             }
+                                                         } */
                             }
                             Console.WriteLine("End of orders");
 

@@ -141,11 +141,29 @@ namespace RediConsoleOrders
 
         }
 
+        private string _exchange;
+        public string Exchange
+        {
+            get { return _exchange; }
+            set { this._exchange = value; }
 
+        }
+
+        private string _customs;
+
+        public string Customs
+        {
+            get { return _customs; }
+            set { this._customs = value; }
+        }
         public override String ToString()
         {
-            return "Ref="+OrderRefKey + "BranchCode=" + BranchCode + "BranchSeq=" + BranchSeq + "|Symbol=" + Symbol + "|Side=" + Side + "|Quantity=" + Quantity + "|ExecQuantity=" + ExecQuantity + "|PriceDesc=" + PriceDesc 
-                + "|PctCmp=" + PctCmp + "|Lvs=" + Lvs + "|ExecPr=" + ExecPr + "|Account=" + Account + "|Status=" + Status;
+            string retString = 
+             "Ref="+OrderRefKey + "BranchCode=" + BranchCode + "BranchSeq=" + BranchSeq + "|Symbol=" + Symbol + "|Side=" + Side + "|Quantity=" + Quantity + "|ExecQuantity=" + ExecQuantity + "|PriceDesc=" + PriceDesc 
+                + "|PctCmp=" + PctCmp + "|Lvs=" + Lvs + "|ExecPr=" + ExecPr /* + "|Exchange=" + Exchange*/ + "|Account=" + Account + "|Status=" + Status;
+            if (!Customs.Equals(""))
+                retString += ("|Customs=" + Customs);
+            return retString;
         }
         
        
