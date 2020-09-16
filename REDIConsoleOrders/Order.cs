@@ -159,7 +159,7 @@ namespace RediConsoleOrders
         public override String ToString()
         {
             string retString = 
-             "Ref="+OrderRefKey + "BranchCode=" + BranchCode + "BranchSeq=" + BranchSeq + "|Symbol=" + Symbol + "|Side=" + Side + "|Quantity=" + Quantity + "|ExecQuantity=" + ExecQuantity + "|PriceDesc=" + PriceDesc 
+             "Ref="+OrderRefKey + "|BranchCode=" + BranchCode + "|BranchSeq=" + BranchSeq + "|Symbol=" + Symbol + "|Side=" + Side + "|Quantity=" + Quantity + "|ExecQuantity=" + ExecQuantity + "|PriceDesc=" + PriceDesc 
                 + "|PctCmp=" + PctCmp + "|Lvs=" + Lvs + "|ExecPr=" + ExecPr /* + "|Exchange=" + Exchange*/ + "|Account=" + Account + "|Status=" + Status;
             if (!Customs.Equals(""))
                 retString += ("|Customs=" + Customs);
